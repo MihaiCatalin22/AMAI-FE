@@ -8,19 +8,18 @@ function Header() {
         <div className="Header">
         <h2>Afternoon Meetings on Artificial Inteligence</h2>
         <nav>
-            <Link to="/">Home</Link>
             <ul>       
                 <li>
-                    <Link to="talks">Talks</Link>
+                    <Link to="home">Meetings</Link>
                 </li>
                 <li>
-                    <Link to="explore">Explore</Link>
+                    <Link to="meetings/past">Past Meetings</Link>
+                </li>
+                <li>
+                    <Link to="explore">Profile</Link>
                 </li>
                 <li>
                     <Link to="about">About</Link>
-                </li>
-                <li>
-                    <Link to="contacts">Contacts</Link>
                 </li>
             </ul>
         </nav>

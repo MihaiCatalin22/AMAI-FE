@@ -1,0 +1,22 @@
+.meeting {
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  
+  .meeting h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .meeting h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .meeting p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }

@@ -5,6 +5,7 @@
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
+    height: 90px;
   }
   
   nav ul {
@@ -26,11 +27,11 @@
     color: white;
     text-decoration: none; 
     font-weight: bold; 
-    font-size: 1.2em; 
-    transition: font-size 0.2s ease; 
+    font-size: 1.3em; 
+    transition: font-size 0.4s ease; 
   }
   
   nav a:hover {
     color: #EFDAD1;
-    font-size: 1.3em; 
+    font-size: 1.5em; 
   }

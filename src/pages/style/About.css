@@ -1,0 +1,14 @@
+
+.about {
+    width: 300px; 
+    padding: 10px;
+  }
+  
+  .about p {
+    margin-bottom: 10px;
+  }
+  
+  .about h2{
+    text-align: center;
+    color: #505;
+  }

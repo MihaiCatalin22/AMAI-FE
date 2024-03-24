@@ -1,0 +1,27 @@
+.home {
+  max-width: 1400px; 
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between; 
+  align-items: flex-start;
+}
+
+.home h1 {
+  text-align: center;
+}
+
+.meetings-wrapper {
+  flex: 1;
+  margin-right: 50px; 
+}
+
+.meeting-list {
+  margin-top: 20px;
+}
+
+.about-wrapper{
+  border: #505 solid 4px;
+  border-radius: 20px;
+  margin-right: 0;
+}
