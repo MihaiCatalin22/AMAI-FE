@@ -7,7 +7,7 @@ function DefaultLayout({children}) {
     return (
         <>
         <Header/>
-        <Search/>
+        
         {children}
         <Footer/>
 

@@ -4,6 +4,8 @@ import Home from './pages/Home';
 import About from './pages/About';
 import DefaultLayout from './layouts/DefaultLayout';
 import PastTalks from './pages/PastMeetings';
+import PresentationForm from './components/PresentationForm';
+import ReserveEvent from './pages/ReserveEvent';
 
 function App() {
   return (
@@ -16,7 +18,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/meetings" element={<Home />} />
             <Route path="/meetings/past" element={<PastTalks />} />
-            <Route path="/profile" element={<Home />} />
+            <Route path="/reserve" element={<ReserveEvent />} />
             <Route path="/about" element={<About />} />
         </Routes>
         </DefaultLayout>

@@ -1,34 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+import AgendaService from "../Services/AgendaService";
+
 import Meeting from "../components/Meeting";
+import Search from "../layoutComponents/Search";
 import About from "./About";
+
 import './style/Home.css'
+
 
 function Home() {
 
-  const meetings = [
-    {
-      id: 1,
-      date: '2024-03-12',
-      topic: 'Introduction Fontys Research Data Management',
-      description: 'Introduction to React fundamentals',
-      speakers: ['Vera Timmers-Haagsma', 'Frank de Nijs']
-    },
-    {
-      id: 2,
-      date: '2024-03-19',
-      topic: 'VVT project update',
-      description: 'Managing state in React applications',
-      speakers: ['Joris Geurts']
-    }
-  ];
+  const [upMeetings,setUpMeetings] = useState([])
   
+  useEffect(() => {
+    AgendaService.getUpcommingEvents().then(result => {
+      setUpMeetings(result.data);
+    });
+  }, []);
 
       return (
+        <>
+        <Search/>
         <div className="home">
+          
           <div className="meetings-wrapper">
             <h1>Upcoming Meetings</h1>
             <div className="meeting-list">
-              {meetings.map(meeting => (
+              {upMeetings.map(meeting => (
                 <Meeting key={meeting.id} meeting={meeting} />
               ))}
             </div>
@@ -37,6 +36,8 @@ function Home() {
             <About />
           </div>
         </div>
+        </>
+        
       );
     }
 
