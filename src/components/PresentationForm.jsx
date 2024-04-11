@@ -5,9 +5,24 @@ const PresentationForm = () => {
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
   const [presentationDate, setPresentationDate] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const speaker = "TestSpeaker";
- 
+
+  const handleFileInputChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
+
+  const handleFileUpload = () => {
+    // here goes the upload logic, but for now we just show file name :D
+    if (selectedFile) {
+      console.log("Selected file:", selectedFile.name);
+    } else {
+       console.log("No file selected");
+    } 
+  };
+  
+
   const handleSubmit = (e) =>{
     e.preventDefault();
 
@@ -55,6 +70,19 @@ const PresentationForm = () => {
           required
         />
       </div>
+      <div style={inputGroupStyle}>
+        <label htmlFor="fileUpload" style={labelStyle}>Upload File:</label>
+        <input
+          type="file"
+          id="fileUpload"
+          onChange={handleFileInputChange}
+          style={{ display: 'none' }}
+        />
+        <button onClick={() => document.getElementById('fileUpload').click()} style={fileButtonStyle}>Choose File</button>
+        <button onClick={handleFileUpload} style={uploadButtonStyle}>Upload</button>
+        {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+      </div>
+      <br></br>
       <button type="submit" style={submitButtonStyle}>Create Presentation</button>
     </form>
   );
@@ -84,7 +112,26 @@ const inputStyle = {
   border: '1px solid #ccc',
   borderRadius: '5px',
 };
+const fileButtonStyle = {
+  backgroundColor: '#008CBA',
+  color: 'white',
+  padding: '10px 15px',
+  fontSize: '16px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+};
 
+const uploadButtonStyle = {
+  backgroundColor: '#4CAF50',
+  color: 'white',
+  padding: '10px 15px',
+  fontSize: '16px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  marginLeft: '10px'
+};
 const submitButtonStyle = {
   backgroundColor: '#4CAF50',
   color: 'white',
