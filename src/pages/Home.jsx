@@ -19,9 +19,13 @@ function Home() {
     });
   }, []);
 
+  const handleSearch = (searchResults) => {
+    setUpMeetings(searchResults);
+  };
+
       return (
         <>
-        <Search/>
+        <Search onSearch={handleSearch}/>
         <div className="home">
           
           <div className="meetings-wrapper">

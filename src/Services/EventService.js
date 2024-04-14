@@ -25,7 +25,11 @@ const EventService = {
     }
     ),
 
-    deleteEvent: (id) => axios.delete(`${API_URL}/${afterSlash}/${id}`)
+    deleteEvent: (id) => axios.delete(`${API_URL}/${afterSlash}/${id}`),
+
+    searchEventsByTopic: (topic) => axios.get(`${API_URL}/${afterSlash}/search?topic=${topic}`)
+
+    
 }
 
 export default EventService;
