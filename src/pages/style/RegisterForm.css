@@ -1,0 +1,41 @@
+/* Add your custom styles here */
+h2 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.container {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .submit-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+  }
