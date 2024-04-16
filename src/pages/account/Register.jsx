@@ -1,8 +1,9 @@
 import React, { useState, useHistory } from 'react';
 import UserService from '../../Services/UserService';
+import '../style/RegisterForm.css'
 
 function RegisterForm() {
-    const queryString = window.location.href;
+  const queryString = window.location.href;
 
   const [formData, setFormData] = useState({
     username: '',
@@ -19,40 +20,37 @@ function RegisterForm() {
     });
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    UserService.register(formData,queryString).then(result =>{
-        if(result.data ==="register_success"){
+    UserService.register(formData, queryString).then(result =>{
+        if(result.data === "register_success"){
             useHistory.push('/registerSuccess');
         }
-    }
-       
-    )
+    });
     console.log(formData);
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input type="text" name="username" value={formData.username} onChange={handleChange} />
+        <div className="input-group">
+          <label className="label">Username:</label>
+          <input className="input" type="text" name="username" value={formData.username} onChange={handleChange} />
         </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} />
+        <div className="input-group">
+          <label className="label">Password:</label>
+          <input className="input" type="password" name="password" value={formData.password} onChange={handleChange} />
         </div>
-        <div>
-          <label>Email:</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange} />
+        <div className="input-group">
+          <label className="label">Email:</label>
+          <input className="input" type="email" name="email" value={formData.email} onChange={handleChange} />
         </div>
-        <div>
-          <label>Full Name:</label>
-          <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
+        <div className="input-group">
+          <label className="label">Full Name:</label>
+          <input className="input" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
         </div>
-        <button type="submit">Register</button>
+        <button className="submit-button" type="submit">Register</button>
       </form>
     </div>
   );
