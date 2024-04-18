@@ -27,6 +27,7 @@ function App() {
             <Route path="/verifyFail" element={<VerifyFail />} />
             <Route path="/verifySuccess" element={<VerifySuccess />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/registerSuccess" element={<RegisterSuccess/>} />
             <Route path="/about" element={<About />} />
             <Route path="/meetings/past" element={<PastTalks />} />
 

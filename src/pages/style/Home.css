@@ -1,27 +1,44 @@
 .home {
-  max-width: 1400px; 
+  max-width: 1400px;
   margin: 0 auto;
   padding: 20px;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: flex-start;
 }
 
 .home h1 {
   text-align: center;
+  color: #000; /* Set the color to black */
 }
 
 .meetings-wrapper {
   flex: 1;
-  margin-right: 50px; 
+  margin-right: 50px;
 }
 
 .meeting-list {
   margin-top: 20px;
 }
 
-.about-wrapper{
+.meeting-item, .meeting-item a {
+  color: #000; /* Set the color to black */
+  font-size: 1rem; /* Adjust size as needed */
+  line-height: 1.5; /* Improve line readability */
+  padding: 10px 0; /* Space above and below the item */
+}
+
+.about-wrapper {
   border: #505 solid 4px;
   border-radius: 20px;
   margin-right: 0;
+  padding: 20px;
+  color: #000; /* Set the color to black */
+}
+
+/* Ensure that all text in the page is easily readable */
+body {
+  color: #000; /* Set the default text color to black */
+  font-size: 16px; /* Default font size */
+  font-family: 'Arial', sans-serif; /* A readable font */
 }
