@@ -1,26 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EventService from '../Services/EventService';
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 
 const PresentationForm = () => {
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
-  const [presentationDate, setPresentationDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
-  const speaker = "TestSpeaker";
-
+  const isThursday = (date) => {
+    return date.getDay() === 4; 
+  };
+  useEffect(() => {
+    fetchAvailableSlots();
+  }, [selectedDate]);
+  
+  const fetchAvailableSlots = () => {
+    const formattedDate = selectedDate.toISOString().slice(0, 10); 
+    EventService.getAvailableSlots(formattedDate)
+        .then(response => {
+            setAvailableSlots(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching available slots:', error);
+        });
+  };
+  const adjustDateToValidTimeSlot = (date) => {
+    let adjustedDate = new Date(date);
+    const userOffset = adjustedDate.getTimezoneOffset() * 60000;
+    adjustedDate = new Date(adjustedDate.getTime() - userOffset);
+    return adjustedDate;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    const adjustedDate = adjustDateToValidTimeSlot(selectedDate);
+    console.log("Adjusted date being sent:", adjustedDate.toISOString());
+    if (!isThursday(selectedDate) || selectedDate.getHours() !== 16) {
+      alert("Please select a valid time slot on Thursday between 16:00 and 17:00.");
+      return;
+    }
 
-    EventService.createEvent(topic, description, speaker, presentationDate)
+    EventService.createEvent(topic, description, "TestSpeaker", adjustedDate.toISOString())
       .then(() => {
         setTopic("");
         setDescription("");
-        setPresentationDate("");
         setShowSuccessModal(true);
       })
       .catch((error) => {
         console.error("Failed to create event:", error);
+        if (error.response) {
+          console.log("Server response:", error.response.data);
+          alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
+        }
       });
   };
 
@@ -53,14 +89,20 @@ const PresentationForm = () => {
         </div>
         <div style={inputGroupStyle}>
           <label htmlFor="presentationDate" style={labelStyle}>Presentation Date:</label>
-          <input
-            type="datetime-local"
-            id="presentationDate"
-            value={presentationDate}
-            onChange={(e) => setPresentationDate(e.target.value)}
-            style={inputStyle}
-            required
-          />
+          <DatePicker
+        selected={selectedDate}
+        onChange={handleDateChange}
+        showTimeSelect
+        filterDate={isThursday}
+        filterTime={(time) => {
+          const hours = time.getHours();
+          return hours === 16;
+        }}
+        minDate={new Date()}
+        maxTime={new Date(new Date().setHours(17, 0, 0))}
+        minTime={new Date(new Date().setHours(16, 0, 0))}
+        dateFormat="MMMM d, yyyy h:mm aa"
+      />
         </div>
         <button type="submit" style={submitButtonStyle}>Create Presentation</button>
       </form>

@@ -37,29 +37,29 @@ function RegisterForm() {
   };
 
   return (
-    <div className="container">
+    <div className="register-container">
       {showSuccessModal && (
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
       )}
       <h2>Register</h2>
       <form onSubmit={handleSubmit} autoComplete='off'>
-        <div className="input-group">
-          <label className="label">Username:</label>
-          <input className="input" type="text" name="username" value={formData.username} onChange={handleChange} />
+        <div className="register-input-group">
+          <label className="register-label">Username:</label>
+          <input className="register-input" type="text" name="username" value={formData.username} onChange={handleChange} />
         </div>
-        <div className="input-group">
-          <label className="label">Password:</label>
-          <input className="input" type="password" name="password" value={formData.password} onChange={handleChange} />
+        <div className="register-input-group">
+          <label className="register-label">Password:</label>
+          <input className="register-input" type="password" name="password" value={formData.password} onChange={handleChange} />
         </div>
-        <div className="input-group">
-          <label className="label">Email:</label>
-          <input className="input" type="email" name="email" value={formData.email} onChange={handleChange} />
+        <div className="register-input-group">
+          <label className="register-label">Email:</label>
+          <input className="register-input" type="email" name="email" value={formData.email} onChange={handleChange} />
         </div>
-        <div className="input-group">
-          <label className="label">Full Name:</label>
-          <input className="input" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
+        <div className="register-input-group">
+          <label className="register-label">Full Name:</label>
+          <input className="register-input" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
         </div>
-        <button className="submit-button" type="submit">Register</button>
+        <button className="register-submit-button" type="submit">Register</button>
       </form>
     </div>
   );

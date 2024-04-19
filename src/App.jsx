@@ -24,6 +24,7 @@ function App() {
             <Route path="/meetings" element={<Home />} />
             <Route path="/reserve" element={<ReserveEvent />} />
             <Route path="/verify" element={<VerificationPortal />} />
+            <Route path="/login" element={<Login/>} />
             <Route path="/verifyFail" element={<VerifyFail />} />
             <Route path="/verifySuccess" element={<VerifySuccess />} />
             <Route path="/register" element={<Register />} />

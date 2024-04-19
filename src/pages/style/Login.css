@@ -1,35 +1,38 @@
-/* Add your custom styles here */
 h2 {
     font-size: 30px;
     text-align: center;
-}
-
-.register-container {
-    max-width: 400px;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 50px;
   }
   
-  .register-input-group {
+  .container {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 50px; 
+    padding: 20px; 
+    background-color: #2b2727; 
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+  }
+  
+  .input-group {
     margin-bottom: 20px;
   }
   
-  .register-label {
+  .label {
     display: block;
     margin-bottom: 5px;
     color: white;
   }
   
-  .register-input {
-    width: 100%;
+  .input {
+    width: 90%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #b6aeae;
+    border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
   }
   
-  .register-submit-button {
+  .submit-button {
     background-color: #4CAF50;
     color: white;
     padding: 15px 20px;
@@ -37,7 +40,7 @@ h2 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 5px;
-  }
-
-  
+    width: 100%;
+    box-sizing: border-box; 
+    margin-top: 20px; 
+    }
