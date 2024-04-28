@@ -16,9 +16,13 @@ function PastTalks() {
     });
   }, []);
 
+  const handleSearch = (searchResults) => {
+    setPastMeetings(searchResults);
+  };
+
       return (
         <>
-         <Search/>
+        <Search onSearch={handleSearch}/>
          <div className="home">
           <div className="meetings-wrapper">
             <h1>Past Meetings</h1>

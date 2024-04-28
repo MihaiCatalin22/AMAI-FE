@@ -11,7 +11,12 @@ import './style/Home.css'
 
 function Home() {
 
-  const [upMeetings,setUpMeetings] = useState([])
+  const [upMeetings,setUpMeetings] = useState([]);
+
+  const handleSearch = (searchResults) => {
+    setUpMeetings(searchResults);
+  };
+
   const formatDate = (isoString) => {
     const date = new Date(isoString);
     return date.toLocaleString('en-US', {
@@ -34,8 +39,8 @@ function Home() {
     }, []);
 
     return (
-      <>
-        <Search />
+      <>  
+      <Search onSearch={handleSearch}/>
         <div className="home">
           <div className="meetings-wrapper">
             <h1>Upcoming Meetings</h1>
