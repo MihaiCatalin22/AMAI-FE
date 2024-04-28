@@ -11,23 +11,37 @@ import './style/Home.css'
 
 function Home() {
 
-  const [upMeetings,setUpMeetings] = useState([])
-  
-  useEffect(() => {
-    AgendaService.getUpcommingEvents().then(result => {
-      setUpMeetings(result.data);
-    });
-  }, []);
+  const [upMeetings,setUpMeetings] = useState([]);
 
   const handleSearch = (searchResults) => {
     setUpMeetings(searchResults);
   };
 
-      return (
-        <>
-        <Search onSearch={handleSearch}/>
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+    return date.toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    };
+    useEffect(() => {
+      AgendaService.getUpcommingEvents().then(result => {
+        const formattedMeetings = result.data.map(meeting => ({
+          ...meeting,
+          formattedDate: formatDate(meeting.date)
+        }));
+        setUpMeetings(formattedMeetings);
+      });
+    }, []);
+
+    return (
+      <>  
+      <Search onSearch={handleSearch}/>
         <div className="home">
-          
           <div className="meetings-wrapper">
             <h1>Upcoming Meetings</h1>
             <div className="meeting-list">
@@ -40,9 +54,8 @@ function Home() {
             <About />
           </div>
         </div>
-        </>
-        
-      );
-    }
+      </>
+    );
+  }
 
 export default Home;
