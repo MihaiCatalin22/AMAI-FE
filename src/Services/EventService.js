@@ -25,7 +25,13 @@ const EventService = {
     }
     ),
 
-    deleteEvent: (id) => axios.delete(`${API_URL}/${afterSlash}/${id}`)
+    deleteEvent: (id) => axios.delete(`${API_URL}/${afterSlash}/${id}`),
+
+    getAvailableSlots: (date) => {
+        return axios.get(`${API_URL}/${afterSlash}/availableSlots`, {
+            params: { date }
+        });
+    },
 }
 
 export default EventService;

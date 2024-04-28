@@ -1,74 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EventService from '../Services/EventService';
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 
 const PresentationForm = () => {
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
-  const [presentationDate, setPresentationDate] = useState('');
-  const [selectedFile, setSelectedFile] = useState(null);
-
-  const speaker = "TestSpeaker";
-
-  const handleFileInputChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [availableSlots, setAvailableSlots] = useState([]);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
   };
 
-  const handleFileUpload = () => {
-    // here goes the upload logic, but for now we just show file name :D
-    if (selectedFile) {
-      console.log("Selected file:", selectedFile.name);
-    } else {
-       console.log("No file selected");
-    } 
+  const isThursday = (date) => {
+    return date.getDay() === 4; 
   };
+  useEffect(() => {
+    fetchAvailableSlots();
+  }, [selectedDate]);
   
-
-  const handleSubmit = (e) =>{
+  const fetchAvailableSlots = () => {
+    const formattedDate = selectedDate.toISOString().slice(0, 10); 
+    EventService.getAvailableSlots(formattedDate)
+        .then(response => {
+            setAvailableSlots(response.data);
+        })
+        .catch(error => {
+            console.error('Error fetching available slots:', error);
+        });
+  };
+  const adjustDateToValidTimeSlot = (date) => {
+    let adjustedDate = new Date(date);
+    const userOffset = adjustedDate.getTimezoneOffset() * 60000;
+    adjustedDate = new Date(adjustedDate.getTime() - userOffset);
+    return adjustedDate;
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    EventService.createEvent(topic,description,speaker,presentationDate)
-    .then(() =>{
-      setTopic("")
-      setDescription("")
-      setPresentationDate("")
+    const adjustedDate = adjustDateToValidTimeSlot(selectedDate);
+    console.log("Adjusted date being sent:", adjustedDate.toISOString());
+    if (!isThursday(selectedDate) || selectedDate.getHours() !== 16) {
+      alert("Please select a valid time slot on Thursday between 16:00 and 17:00.");
+      return;
     }
-    )
-  }
-  
+
+    EventService.createEvent(topic, description, "TestSpeaker", adjustedDate.toISOString())
+      .then(() => {
+        setTopic("");
+        setDescription("");
+        setShowSuccessModal(true);
+      })
+      .catch((error) => {
+        console.error("Failed to create event:", error);
+        if (error.response) {
+          console.log("Server response:", error.response.data);
+          alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
+        }
+      });
+  };
 
   return (
-    <form onSubmit={handleSubmit} style={formStyle}>
-      <div style={inputGroupStyle}>
-        <label htmlFor="topic" style={labelStyle}>Topic:</label>
-        <input
-          type="text"
-          id="topic"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          style={inputStyle}
-          required
-        />
-      </div>
-      <div style={inputGroupStyle}>
-        <label htmlFor="description" style={labelStyle}>Description:</label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          style={{...inputStyle, height: '100px'}}
-          required
-        />
-      </div>
-      <div style={inputGroupStyle}>
-        <label htmlFor="presentationDate" style={labelStyle}>Presentation Date:</label>
-        <input
-          type="datetime-local"
-          id="presentationDate"
-          value={presentationDate}
-          onChange={(e) => setPresentationDate(e.target.value)}
-          style={inputStyle}
-          required
-        />
+    <>
+      {showSuccessModal && (
+        <SuccessModal onClose={() => setShowSuccessModal(false)} />
+      )}
+      <form onSubmit={handleSubmit} style={formStyle} autoComplete='off'>
+        <div style={inputGroupStyle}>
+          <label htmlFor="topic" style={labelStyle}>Topic:</label>
+          <input
+            type="text"
+            id="topic"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            style={inputStyle}
+            required
+          />
+        </div>
+        <div style={inputGroupStyle}>
+          <label htmlFor="description" style={labelStyle}>Description:</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            style={{ ...inputStyle, height: '100px' }}
+            required
+          />
+        </div>
+        <div style={inputGroupStyle}>
+          <label htmlFor="presentationDate" style={labelStyle}>Presentation Date:</label>
+          <DatePicker
+        selected={selectedDate}
+        onChange={handleDateChange}
+        showTimeSelect
+        filterDate={isThursday}
+        filterTime={(time) => {
+          const hours = time.getHours();
+          return hours === 16;
+        }}
+        minDate={new Date()}
+        maxTime={new Date(new Date().setHours(17, 0, 0))}
+        minTime={new Date(new Date().setHours(16, 0, 0))}
+        dateFormat="MMMM d, yyyy h:mm aa"
+      />
+        </div>
+        <button type="submit" style={submitButtonStyle}>Create Presentation</button>
+      </form>
+    </>
+  );
+};
+
+
+const SuccessModal = ({ onClose }) => {
+  return (
+    <div style={modalOverlayStyle}>
+      <div style={modalStyle}>
+        <p>Time slot booked successfully!</p>
+        <button onClick={onClose} style={closeButtonStyle}>Close</button>
       </div>
       <div style={inputGroupStyle}>
         <label htmlFor="fileUpload" style={labelStyle}>Upload File:</label>
@@ -142,6 +190,33 @@ const submitButtonStyle = {
   cursor: 'pointer',
   marginBottom:'5px'
 };
+const modalOverlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  zIndex: 1000, 
+};
 
+const modalStyle = {
+  backgroundColor: '#fff',
+  padding: '20px',
+  borderRadius: '5px',
+  zIndex: 1000,
+};
+
+const closeButtonStyle = {
+  backgroundColor: '#4CAF50',
+  color: 'white',
+  padding: '10px 20px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  marginTop: '10px',
+};
 export default PresentationForm;
-

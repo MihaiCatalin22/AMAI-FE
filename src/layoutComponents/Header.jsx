@@ -6,7 +6,7 @@ import './style/Header.css'
 function Header() {
     return (
         <div className="Header">
-        <h2>Afternoon Meetings on Artificial Inteligence</h2>
+        <h2>Afternoon Meetings on Artificial Intelligence</h2>
         <nav>
             <ul>       
                 <li>
@@ -14,6 +14,15 @@ function Header() {
                 </li>
                 <li>
                     <Link to="meetings/past">Past Meetings</Link>
+                </li>
+                <li>
+                    <Link to="reserve">Reserve</Link>
+                </li>
+                <li>
+                    <Link to="login">Login</Link>
+                </li>
+                <li>
+                    <Link to="register">Register</Link>
                 </li>
                 <li>
                     <Link to="explore">Profile</Link>
