@@ -7,8 +7,9 @@ h2 {
     max-width: 400px;
     margin: auto;
     margin-top: 50px; 
+    margin-bottom: 50px;
     padding: 20px; 
-    background-color: #2b2727; 
+    background-color: #505; 
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     border-radius: 10px;
   }

@@ -9,6 +9,7 @@ const PresentationForm = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
+  const [selectedFileName, setSelectedFileName] = useState(null);
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -19,7 +20,6 @@ const PresentationForm = () => {
   useEffect(() => {
     fetchAvailableSlots();
   }, [selectedDate]);
-  
   const fetchAvailableSlots = () => {
     const formattedDate = selectedDate.toISOString().slice(0, 10); 
     EventService.getAvailableSlots(formattedDate)
@@ -109,7 +109,18 @@ const PresentationForm = () => {
     </>
   );
 };
+const handleFileInputChange = (e) => {
+  //setSelectedFile(e.target.files[0]);
+};
 
+const handleFileUpload = () => {
+  // here goes the upload logic, but for now we just show file name :D
+  if (selectedFile) {
+    console.log("Selected file:", selectedFile.name);
+  } else {
+     console.log("No file selected");
+  } 
+};
 
 const SuccessModal = ({ onClose }) => {
   return (
@@ -128,11 +139,11 @@ const SuccessModal = ({ onClose }) => {
         />
         <button onClick={() => document.getElementById('fileUpload').click()} style={fileButtonStyle}>Choose File</button>
         <button onClick={handleFileUpload} style={uploadButtonStyle}>Upload</button>
-        {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+        {/* {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
       </div>
       <br></br>
-      <button type="submit" style={submitButtonStyle}>Create Presentation</button>
-    </form>
+  
+    </div>
   );
 };
 
