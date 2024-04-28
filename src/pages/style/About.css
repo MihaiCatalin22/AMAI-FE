@@ -1,0 +1,18 @@
+
+
+.about {
+  width: 300px; 
+  padding: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Optional: adds a shadow for better visibility */
+  background: rgba(255, 255, 255, 0.8); /* Optional: slight white background for legibility */
+}
+
+.about p {
+  margin-bottom: 10px;
+  color: #000; /* Change the text color to black for readability */
+}
+
+.about h2{
+  text-align: center;
+  color: #000; /* Change the header color to black for readability */
+}
