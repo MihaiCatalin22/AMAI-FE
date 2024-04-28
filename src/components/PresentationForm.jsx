@@ -118,7 +118,21 @@ const SuccessModal = ({ onClose }) => {
         <p>Time slot booked successfully!</p>
         <button onClick={onClose} style={closeButtonStyle}>Close</button>
       </div>
-    </div>
+      <div style={inputGroupStyle}>
+        <label htmlFor="fileUpload" style={labelStyle}>Upload File:</label>
+        <input
+          type="file"
+          id="fileUpload"
+          onChange={handleFileInputChange}
+          style={{ display: 'none' }}
+        />
+        <button onClick={() => document.getElementById('fileUpload').click()} style={fileButtonStyle}>Choose File</button>
+        <button onClick={handleFileUpload} style={uploadButtonStyle}>Upload</button>
+        {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+      </div>
+      <br></br>
+      <button type="submit" style={submitButtonStyle}>Create Presentation</button>
+    </form>
   );
 };
 
@@ -146,7 +160,26 @@ const inputStyle = {
   border: '1px solid #ccc',
   borderRadius: '5px',
 };
+const fileButtonStyle = {
+  backgroundColor: '#008CBA',
+  color: 'white',
+  padding: '10px 15px',
+  fontSize: '16px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+};
 
+const uploadButtonStyle = {
+  backgroundColor: '#4CAF50',
+  color: 'white',
+  padding: '10px 15px',
+  fontSize: '16px',
+  border: 'none',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  marginLeft: '10px'
+};
 const submitButtonStyle = {
   backgroundColor: '#4CAF50',
   color: 'white',
