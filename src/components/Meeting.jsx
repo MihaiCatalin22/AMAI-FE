@@ -2,6 +2,7 @@ import React from "react";
 import FileService from "../Services/FileService";
 import FileUploadComponent from "./FileUploadComponent";
 import './style/Meeting.css';
+import { Link } from "react-router-dom";
 
 function Meeting({ meeting }) {
 
@@ -21,7 +22,7 @@ function Meeting({ meeting }) {
 return (
   <div className="meeting">
       <h2>{meeting.formattedDate}</h2>
-      <h3>{meeting.topic}</h3>
+      <Link to={`/meeting/${meeting.id}`}>{meeting.topic}</Link>
       <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
       <p>{meeting.description}</p>
       {!meeting.fileName && (

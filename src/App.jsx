@@ -11,6 +11,8 @@ import Login from './pages/account/Login'
 import VerificationPortal from './pages/account/VerificationPortal';
 import VerifyFail from './pages/account/VerifyFail';
 import VerifySuccess from './pages/account/VerifySuccess';
+import MeetingInfo from './pages/MeetingInfo';
+import MeetingUpdatePage from './pages/MeetingUpdatePage';
 
 function App() {
   return (
@@ -31,7 +33,8 @@ function App() {
             <Route path="/registerSuccess" element={<RegisterSuccess/>} />
             <Route path="/about" element={<About />} />
             <Route path="/meetings/past" element={<PastTalks />} />
-
+            <Route path='/meeting/:id' element={<MeetingInfo/>}/>
+            <Route path='/meetings/:id/update' element={<MeetingUpdatePage/>}/>
 
         </Routes>
         </DefaultLayout>
