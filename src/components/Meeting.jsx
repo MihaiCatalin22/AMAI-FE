@@ -1,5 +1,5 @@
 import React from "react";
-import './style/Meeting.css';
+import '../Style/Pages.css';
 
 function Meeting({meeting}){
 

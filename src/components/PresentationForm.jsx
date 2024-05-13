@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import EventService from '../Services/EventService';
-import DatePicker from 'react-datepicker'
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import "../Style/Pages.css"
 
 const PresentationForm = () => {
   const [topic, setTopic] = useState('');
@@ -10,32 +11,37 @@ const PresentationForm = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState(null);
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
   const isThursday = (date) => {
-    return date.getDay() === 4; 
+    return date.getDay() === 4;
   };
+
   useEffect(() => {
     fetchAvailableSlots();
   }, [selectedDate]);
+
   const fetchAvailableSlots = () => {
-    const formattedDate = selectedDate.toISOString().slice(0, 10); 
+    const formattedDate = selectedDate.toISOString().slice(0, 10);
     EventService.getAvailableSlots(formattedDate)
         .then(response => {
-            setAvailableSlots(response.data);
+          setAvailableSlots(response.data);
         })
         .catch(error => {
-            console.error('Error fetching available slots:', error);
+          console.error('Error fetching available slots:', error);
         });
   };
+
   const adjustDateToValidTimeSlot = (date) => {
     let adjustedDate = new Date(date);
     const userOffset = adjustedDate.getTimezoneOffset() * 60000;
     adjustedDate = new Date(adjustedDate.getTime() - userOffset);
     return adjustedDate;
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const adjustedDate = adjustDateToValidTimeSlot(selectedDate);
@@ -46,188 +52,106 @@ const PresentationForm = () => {
     }
 
     EventService.createEvent(topic, description, "TestSpeaker", adjustedDate.toISOString())
-      .then(() => {
-        setTopic("");
-        setDescription("");
-        setShowSuccessModal(true);
-      })
-      .catch((error) => {
-        console.error("Failed to create event:", error);
-        if (error.response) {
-          console.log("Server response:", error.response.data);
-          alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
-        }
-      });
+        .then(() => {
+          setTopic("");
+          setDescription("");
+          setShowSuccessModal(true);
+        })
+        .catch((error) => {
+          console.error("Failed to create event:", error);
+          if (error.response) {
+            console.log("Server response:", error.response.data);
+            alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
+          }
+        });
+  };
+
+  const handleFileInputChange = (e) => {
+    //setSelectedFile(e.target.files[0]);
+  };
+
+  const handleFileUpload = () => {
+    // here goes the upload logic, but for now we just show file name :D
+    if (selectedFile) {
+      console.log("Selected file:", selectedFile.name);
+    } else {
+      console.log("No file selected");
+    }
+  };
+
+  const SuccessModal = ({ onClose }) => {
+    return (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Time slot booked successfully!</p>
+            <button onClick={onClose} className="close-button">Close</button>
+          </div>
+          <div className="input-group">
+            <label htmlFor="fileUpload" className="label">Upload File:</label>
+            <input
+                type="file"
+                id="fileUpload"
+                onChange={handleFileInputChange}
+                style={{ display: 'none' }}
+            />
+            <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
+            <button onClick={handleFileUpload} className="upload-button">Upload</button>
+            {/* {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
+          </div>
+          <br></br>
+        </div>
+    );
   };
 
   return (
-    <>
-      {showSuccessModal && (
-        <SuccessModal onClose={() => setShowSuccessModal(false)} />
-      )}
-      <form onSubmit={handleSubmit} style={formStyle} autoComplete='off'>
-        <div style={inputGroupStyle}>
-          <label htmlFor="topic" style={labelStyle}>Topic:</label>
-          <input
-            type="text"
-            id="topic"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            style={inputStyle}
-            required
-          />
-        </div>
-        <div style={inputGroupStyle}>
-          <label htmlFor="description" style={labelStyle}>Description:</label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            style={{ ...inputStyle, height: '100px' }}
-            required
-          />
-        </div>
-        <div style={inputGroupStyle}>
-          <label htmlFor="presentationDate" style={labelStyle}>Presentation Date:</label>
-          <DatePicker
-        selected={selectedDate}
-        onChange={handleDateChange}
-        showTimeSelect
-        filterDate={isThursday}
-        filterTime={(time) => {
-          const hours = time.getHours();
-          return hours === 16;
-        }}
-        minDate={new Date()}
-        maxTime={new Date(new Date().setHours(17, 0, 0))}
-        minTime={new Date(new Date().setHours(16, 0, 0))}
-        dateFormat="MMMM d, yyyy h:mm aa"
-      />
-        </div>
-        <button type="submit" style={submitButtonStyle}>Create Presentation</button>
-      </form>
-    </>
-  );
-};
-const handleFileInputChange = (e) => {
-  //setSelectedFile(e.target.files[0]);
-};
-
-const handleFileUpload = () => {
-  // here goes the upload logic, but for now we just show file name :D
-  if (selectedFile) {
-    console.log("Selected file:", selectedFile.name);
-  } else {
-     console.log("No file selected");
-  } 
-};
-
-const SuccessModal = ({ onClose }) => {
-  return (
-    <div style={modalOverlayStyle}>
-      <div style={modalStyle}>
-        <p>Time slot booked successfully!</p>
-        <button onClick={onClose} style={closeButtonStyle}>Close</button>
-      </div>
-      <div style={inputGroupStyle}>
-        <label htmlFor="fileUpload" style={labelStyle}>Upload File:</label>
-        <input
-          type="file"
-          id="fileUpload"
-          onChange={handleFileInputChange}
-          style={{ display: 'none' }}
-        />
-        <button onClick={() => document.getElementById('fileUpload').click()} style={fileButtonStyle}>Choose File</button>
-        <button onClick={handleFileUpload} style={uploadButtonStyle}>Upload</button>
-        {/* {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
-      </div>
-      <br></br>
-  
-    </div>
+      <>
+        {showSuccessModal && (
+            <SuccessModal onClose={() => setShowSuccessModal(false)} />
+        )}
+        <form onSubmit={handleSubmit} id="presentation-form" autoComplete='off'>
+          <div className="input-group">
+            <label htmlFor="topic" className="medium-text">Topic:</label>
+            <input
+                type="text"
+                id="topic"
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="input"
+                required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="description" className="medium-text">Description:</label>
+            <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="input"
+                required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="presentationDate" className="medium-text">Presentation Date:</label>
+            <DatePicker
+                selected={selectedDate}
+                onChange={handleDateChange}
+                showTimeSelect
+                filterDate={isThursday}
+                filterTime={(time) => {
+                  const hours = time.getHours();
+                  return hours === 16;
+                }}
+                minDate={new Date()}
+                maxTime={new Date(new Date().setHours(17, 0, 0))}
+                minTime={new Date(new Date().setHours(16, 0, 0))}
+                dateFormat="MMMM d, yyyy h:mm aa"
+            />
+          </div>
+          <button type="submit" className="button">Create Presentation</button>
+        </form>
+      </>
   );
 };
 
-const formStyle = {
-  maxWidth: '400px',
-  margin: 'auto',
-  marginTop: '20px',
-  marginBottom: '50px'
-};
-
-const inputGroupStyle = {
-  marginBottom: '20px',
-};
-
-const labelStyle = {
-  display: 'block',
-  marginBottom: '5px',
-  color: '#333',
-};
-
-const inputStyle = {
-  width: '100%',
-  padding: '10px',
-  fontSize: '16px',
-  border: '1px solid #ccc',
-  borderRadius: '5px',
-};
-const fileButtonStyle = {
-  backgroundColor: '#008CBA',
-  color: 'white',
-  padding: '10px 15px',
-  fontSize: '16px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-};
-
-const uploadButtonStyle = {
-  backgroundColor: '#4CAF50',
-  color: 'white',
-  padding: '10px 15px',
-  fontSize: '16px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  marginLeft: '10px'
-};
-const submitButtonStyle = {
-  backgroundColor: '#4CAF50',
-  color: 'white',
-  padding: '15px 20px',
-  fontSize: '16px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  marginBottom:'5px'
-};
-const modalOverlayStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  zIndex: 1000, 
-};
-
-const modalStyle = {
-  backgroundColor: '#fff',
-  padding: '20px',
-  borderRadius: '5px',
-  zIndex: 1000,
-};
-
-const closeButtonStyle = {
-  backgroundColor: '#4CAF50',
-  color: 'white',
-  padding: '10px 20px',
-  border: 'none',
-  borderRadius: '5px',
-  cursor: 'pointer',
-  marginTop: '10px',
-};
 export default PresentationForm;
+

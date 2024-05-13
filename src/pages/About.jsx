@@ -1,11 +1,12 @@
 import React from 'react';
-import './style/About.css'
+import "../Style/Pages.css"
 
 function About() {
   return (
     <div className="about">
-      <h2>About AMAI</h2>
-      <p><strong>AMAI</strong> = Afternoon Meetings on AI 😅</p>
+        <div><label className="page-tittle">About AMAI</label></div>
+
+        <p><strong>AMAI</strong> = Afternoon Meetings on AI 😅</p>
       
       <h3>We meet:</h3>
       <p>Every Tuesday at 16:00, TQ5-2.501 + online,
