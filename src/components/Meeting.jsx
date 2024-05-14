@@ -1,7 +1,8 @@
 import React from "react";
+import '../Style/Pages.css';
+import { Link } from 'react-router-dom';
 import FileService from "../Services/FileService";
 import FileUploadComponent from "./FileUploadComponent";
-import './style/Meeting.css';
 import { Link } from "react-router-dom";
 
 function Meeting({ meeting }) {

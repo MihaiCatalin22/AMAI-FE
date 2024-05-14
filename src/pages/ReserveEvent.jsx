@@ -8,7 +8,12 @@ function ReserveEvent(){
 
     return(
         <>
+<<<<<<< Updated upstream
         <h1>Reserve</h1>
+=======
+        <br></br>
+        <label className="page-tittle">Reserve</label>
+>>>>>>> Stashed changes
         <PresentationForm></PresentationForm>
         </>
         

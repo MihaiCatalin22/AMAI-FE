@@ -41,11 +41,14 @@ function RegisterForm() {
       {showSuccessModal && (
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
       )}
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit} autoComplete='off'>
-        <div className="register-input-group">
-          <label className="register-label">Username:</label>
-          <input className="register-input" type="text" name="username" value={formData.username} onChange={handleChange} />
+      <br></br>
+
+      <form className="flex-form-container" onSubmit={handleSubmit} autoComplete='off'>
+        <div><label className="page-tittle">Register</label></div>
+
+        <div className="input-group">
+          <label className="medium-text">Username:</label>
+          <input className="input" type="text" name="username" value={formData.username} onChange={handleChange}/>
         </div>
         <div className="register-input-group">
           <label className="register-label">Password:</label>

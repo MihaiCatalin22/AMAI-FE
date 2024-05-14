@@ -1,5 +1,5 @@
 import React from "react";
-import "./style/Home.css";
+import "../Style/Pages.css";
 import MeetingUpdateForm from "../components/MeetingUpdateForm";
 
 function MeetingUpdatePage(){

@@ -14,20 +14,22 @@ function Login() {
         }, 2000);
     }
     return (
-      <div className="container">
-        <h2>Login to your account</h2>
-        <form onSubmit={handleLogin} className="form-container" >
-          <div className="input-group">
-            <label className="label" htmlFor="username">Username:</label>
-            <input type="text" id="username" className="input" autoComplete="off" required />
-          </div>
-          <div className="input-group">
-            <label className="label" htmlFor="password">Password:</label>
-            <input type="password" id="password" className="input" required />
-          </div>
-          <button type="submit" className="submit-button">Login</button>
-        </form>
-        {showSuccessModal && <LoginSuccessModal />}
+
+      <div>
+          <form onSubmit={handleLogin} className="flex-form-container">
+          <br></br>
+              <div><label className="page-tittle">Login to your account</label></div>
+              <div className="input-group">
+                  <label className="medium-text" htmlFor="username">Username:</label>
+                  <input type="text" id="username" className="input" autoComplete="off" required/>
+              </div>
+              <div className="input-group">
+                  <label className="medium-text" htmlFor="password">Password:</label>
+                  <input type="password" id="password" className="input" required/>
+              </div>
+              <button type="submit" className="button">Login</button>
+          </form>
+          {showSuccessModal && <LoginSuccessModal/>}
       </div>
     );
   }
