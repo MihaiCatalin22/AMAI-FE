@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './contexts/authContext';
 import Home from './pages/Home';
 import About from './pages/About';
 import DefaultLayout from './layouts/DefaultLayout';
@@ -13,11 +14,13 @@ import VerifyFail from './pages/account/VerifyFail';
 import VerifySuccess from './pages/account/VerifySuccess';
 import MeetingInfo from './pages/MeetingInfo';
 import MeetingUpdatePage from './pages/MeetingUpdatePage';
+import ProfilePage from './pages/account/ProfilePage';
 
 function App() {
   return (
     <div className='App'>
       <BrowserRouter>
+      <AuthProvider>
       <DefaultLayout>
       <Routes>
         
@@ -35,9 +38,10 @@ function App() {
             <Route path="/meetings/past" element={<PastTalks />} />
             <Route path='/meeting/:id' element={<MeetingInfo/>}/>
             <Route path='/meetings/:id/update' element={<MeetingUpdatePage/>}/>
-
+            <Route path='/profile' element={<ProfilePage/>} />
         </Routes>
         </DefaultLayout>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );

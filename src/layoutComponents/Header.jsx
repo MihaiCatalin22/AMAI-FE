@@ -11,25 +11,25 @@ function Header() {
         <nav>
             <ul>       
                 <li>
-                    <Link to="home">Meetings</Link>
+                    <Link to="/home">Meetings</Link>
                 </li>
                 <li>
-                    <Link to="meetings/past">Past Meetings</Link>
+                    <Link to="/meetings/past">Past Meetings</Link>
                 </li>
                 <li>
-                    <Link to="reserve">Reserve</Link>
+                    <Link to="/reserve">Reserve</Link>
                 </li>
                 <li>
-                    <Link to="login">Login</Link>
+                    <Link to="/login">Login</Link>
                 </li>
                 <li>
-                    <Link to="register">Register</Link>
+                    <Link to="/register">Register</Link>
                 </li>
                 <li>
-                    <Link to="explore">Profile</Link>
+                    <Link to="/profile">Profile</Link>
                 </li>
                 <li>
-                    <Link to="about">About</Link>
+                    <Link to="/about">About</Link>
                 </li>
             </ul>
         </nav>
