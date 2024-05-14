@@ -23,11 +23,12 @@ function Search({onSearch}) {
 
   return (
     <div className="search-container">
-      <input type="text" 
+      <input type="text"
+        className='text-black' 
         value={eventTopic}
         placeholder="Search by topic" 
         onChange={(e) => setEventTopic(e.target.value)}/>
-      <select>
+      <select className='text-black'>
         <option value="current">Current Semester</option>
         <option value="latest">Latest Semester</option>
       </select>

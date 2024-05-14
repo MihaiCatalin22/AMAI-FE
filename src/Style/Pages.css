@@ -51,7 +51,9 @@ body {
 .button:focus-visible {
     outline: 4px auto -webkit-focus-ring-color;
 }
-
+.text-black{
+    color: black;
+}
 /* meetings */
 .meeting {
     background-color: #f4f4f4;

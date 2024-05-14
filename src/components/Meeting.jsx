@@ -3,7 +3,6 @@ import '../Style/Pages.css';
 import { Link } from 'react-router-dom';
 import FileService from "../Services/FileService";
 import FileUploadComponent from "./FileUploadComponent";
-import { Link } from "react-router-dom";
 
 function Meeting({ meeting }) {
 

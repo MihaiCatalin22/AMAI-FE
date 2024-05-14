@@ -66,18 +66,18 @@ const PresentationForm = () => {
         });
   };
 
-  const handleFileInputChange = (e) => {
-    //setSelectedFile(e.target.files[0]);
-  };
+  // const handleFileInputChange = (e) => {
+  //   //setSelectedFile(e.target.files[0]);
+  // };
 
-  const handleFileUpload = () => {
-    // here goes the upload logic, but for now we just show file name :D
-    if (selectedFile) {
-      console.log("Selected file:", selectedFile.name);
-    } else {
-      console.log("No file selected");
-    }
-  };
+  // const handleFileUpload = () => {
+  //   // here goes the upload logic, but for now we just show file name :D
+  //   if (selectedFile) {
+  //     console.log("Selected file:", selectedFile.name);
+  //   } else {
+  //     console.log("No file selected");
+  //   }
+  // };
 
   const SuccessModal = ({ onClose }) => {
     return (
@@ -87,15 +87,15 @@ const PresentationForm = () => {
             <button onClick={onClose} className="close-button">Close</button>
           </div>
           <div className="input-group">
-            <label htmlFor="fileUpload" className="label">Upload File:</label>
+            {/* <label htmlFor="fileUpload" className="label">Upload File:</label>
             <input
                 type="file"
                 id="fileUpload"
                 onChange={handleFileInputChange}
                 style={{ display: 'none' }}
-            />
-            <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
-            <button onClick={handleFileUpload} className="upload-button">Upload</button>
+            /> */}
+            {/* <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button> */}
+            {/* <button onClick={handleFileUpload} className="upload-button">Upload</button> */}
             {/* {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
           </div>
           <br></br>
