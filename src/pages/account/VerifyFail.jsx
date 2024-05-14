@@ -1,4 +1,5 @@
 import React from "react"
+import "../../Style/Pages.css";
 
 function VerifyFail(){
     return(

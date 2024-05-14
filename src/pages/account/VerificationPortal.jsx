@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../../Services/UserService";
 
+
 function VerificationPortal(){
     const navigate = useNavigate();
     const queryString = window.location.search;

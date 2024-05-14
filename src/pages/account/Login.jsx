@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../style/Login.css';
+import "../../Style/Pages.css";
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
@@ -32,35 +32,16 @@ function Login() {
           {showSuccessModal && <LoginSuccessModal/>}
       </div>
     );
-  }
+}
 
   const LoginSuccessModal = () => {
     return (
-        <div style={modalOverlayStyle}>
-            <div style={modalContentStyle}>
+        <div className="modalOverlayStyle">
+            <div className="modalContentStyle">
                 <p>Logged in successfully!</p>
             </div>
         </div>
     );
-};
-
-const modalOverlayStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000,
-};
-
-const modalContentStyle = {
-    padding: '20px',
-    backgroundColor: '#fff',
-    borderRadius: '5px',
 };
 
 export default Login;

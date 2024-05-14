@@ -2,7 +2,7 @@ import React , {useState, useEffect}from "react";
 import AgendaService from "../Services/AgendaService";
 import Meeting from "../components/Meeting";
 import Search from "../layoutComponents/Search";
-import './style/Home.css'
+import "../Style/Pages.css"
 
 function PastTalks() {
   const [pastMeetings, setPastMeetings] = useState([]);
@@ -22,8 +22,8 @@ function PastTalks() {
         <Search onSearch={handleSearch}/>
          <div className="home">
           <div className="meetings-wrapper">
-            <h1>Past Meetings</h1>
-            <div className="meeting-list">
+              <div><label className="page-tittle">Past Meetings</label></div>
+              <div className="meeting-list">
               {pastMeetings.map(meeting => (
                 <Meeting key={meeting.id} meeting={meeting} />
               ))}

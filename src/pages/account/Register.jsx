@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import UserService from '../../Services/UserService';
-import '../style/RegisterForm.css'
+import "../../Style/Pages.css";
 
 function RegisterForm() {
   const queryString = window.location.href;
@@ -37,7 +37,7 @@ function RegisterForm() {
   };
 
   return (
-    <div className="register-container">
+    <div>
       {showSuccessModal && (
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
       )}
@@ -50,28 +50,28 @@ function RegisterForm() {
           <label className="medium-text">Username:</label>
           <input className="input" type="text" name="username" value={formData.username} onChange={handleChange}/>
         </div>
-        <div className="register-input-group">
-          <label className="register-label">Password:</label>
-          <input className="register-input" type="password" name="password" value={formData.password} onChange={handleChange} />
+        <div className="input-group">
+          <label className="medium-text">Password:</label>
+          <input className="input" type="password" name="password" value={formData.password} onChange={handleChange}/>
         </div>
-        <div className="register-input-group">
-          <label className="register-label">Email:</label>
-          <input className="register-input" type="email" name="email" value={formData.email} onChange={handleChange} />
+        <div className="input-group">
+          <label className="medium-text">Email:</label>
+          <input className="input" type="email" name="email" value={formData.email} onChange={handleChange}/>
         </div>
-        <div className="register-input-group">
-          <label className="register-label">Full Name:</label>
-          <input className="register-input" type="text" name="fullName" value={formData.fullName} onChange={handleChange} />
+        <div className="input-group">
+          <label className="medium-text">Full Name:</label>
+          <input className="input" type="text" name="fullName" value={formData.fullName} onChange={handleChange}/>
         </div>
-        <button className="register-submit-button" type="submit">Register</button>
+        <button className="button" type="submit">Register</button>
       </form>
     </div>
   );
 }
 
-const SuccessModal = ({ onClose }) => {
+const SuccessModal = ({onClose}) => {
   return (
-    <div style={modalOverlayStyle}>
-      <div style={modalStyle}>
+    <div className="modalOverlayStyle">
+      <div className="modalStyle">
         <h4>Registration Successful!</h4>
         <p>You have successfully registered. You can now log in.</p>
         <button onClick={onClose} style={closeButtonStyle}>Close</button>
@@ -81,26 +81,7 @@ const SuccessModal = ({ onClose }) => {
 };
 
 // Styles for the modal
-const modalOverlayStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0,0,0,0.75)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: 1000,
-};
 
-const modalStyle = {
-  background: 'white',
-  padding: '20px',
-  borderRadius: '10px',
-  width: '300px',
-  textAlign: 'center',
-};
 
 const closeButtonStyle = {
   marginTop: '10px',
