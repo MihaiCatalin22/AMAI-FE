@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './contexts/authContext';
 import Home from './pages/Home';
 import About from './pages/About';
 import DefaultLayout from './layouts/DefaultLayout';
@@ -16,6 +17,7 @@ function App() {
   return (
     <div className='App'>
       <BrowserRouter>
+      <AuthProvider>
       <DefaultLayout>
       <Routes>
         
@@ -35,6 +37,7 @@ function App() {
 
         </Routes>
         </DefaultLayout>
+        </AuthProvider>
       </BrowserRouter>
     </div>
   );
