@@ -1,7 +1,5 @@
 import React from "react";
-import FileService from "../Services/FileService";
-import FileUploadComponent from "./FileUploadComponent";
-import './style/Meeting.css';
+import '../Style/Pages.css';
 
 function Meeting({ meeting }) {
 

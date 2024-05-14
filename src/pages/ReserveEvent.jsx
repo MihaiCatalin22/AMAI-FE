@@ -2,13 +2,13 @@ import React from "react"
 
 import PresentationForm from "../components/PresentationForm"
 
-import './style/ReserveEvent.css'
+import "../Style/Pages.css"
 function ReserveEvent(){
 
 
     return(
         <>
-        <h1>Reserve</h1>
+        <label className="page-tittle">Reserve</label>
         <PresentationForm></PresentationForm>
         </>
         
