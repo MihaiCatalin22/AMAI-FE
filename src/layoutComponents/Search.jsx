@@ -25,7 +25,7 @@ function Search({onSearch}) {
     <div className="search-container">
       <input type="text" 
         value={eventTopic}
-        placeholder="Search by topic or speaker" 
+        placeholder="Search by topic" 
         onChange={(e) => setEventTopic(e.target.value)}/>
       <select>
         <option value="current">Current Semester</option>
