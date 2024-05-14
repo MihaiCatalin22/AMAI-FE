@@ -1,19 +1,16 @@
 import React , {useState, useEffect}from "react";
-
 import AgendaService from "../Services/AgendaService";
-
 import Meeting from "../components/Meeting";
 import Search from "../layoutComponents/Search";
 import './style/Home.css'
 
 function PastTalks() {
-  
-  const [pastMeetings,setPastMeetings] = useState([])
-  
+  const [pastMeetings, setPastMeetings] = useState([]);
+
   useEffect(() => {
     AgendaService.getPastEvents().then(result => {
       setPastMeetings(result.data);
-    });
+    }).catch(error => console.error("Error fetching past meetings:", error));
   }, []);
 
   const handleSearch = (searchResults) => {

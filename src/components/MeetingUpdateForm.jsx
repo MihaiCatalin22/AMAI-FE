@@ -1,17 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import EventService from '../Services/EventService';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
+import './style/Meeting.css';
 
-const PresentationForm = () => {
-  const [topic, setTopic] = useState('');
+const MeetingUpdateForm = () => {
+
+    const { id } = useParams();
+    const meetingId = parseInt(id); // Convert id to integer
+    const [meeting, setMeeting] = useState(null);
+
+    const [topic, setTopic] = useState('');
     const [description, setDescription] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+    useEffect(() => {
+        EventService.getEvent(meetingId)
+            .then(data => {
+                console.log(data.data); 
+                setMeeting(data.data);
+                setTopic(data.data.topic);
+                setDescription(data.data.description);
+                const isoDate = new Date(data.data.date);
+
+                // Check if isoDate is a valid date
+                if (!isNaN(isoDate.getTime())) {
+                    setSelectedDate(isoDate);
+                }
+                })
+            .catch(error => {
+                console.error("Error fetching event:", error);
+            });
+    }, [meetingId]);
+
+
     const handleDateChange = (date) => setSelectedDate(date);
 
-    const isThursday = (date) => date.getDay() === 4;
+    const isTuesday = (date) => date.getDay() === 2;
     const adjustDateToValidTimeSlot = (date) => {
         let adjustedDate = new Date(date);
         const userOffset = adjustedDate.getTimezoneOffset() * 60000;
@@ -23,20 +50,20 @@ const PresentationForm = () => {
         e.preventDefault();
         const adjustedDate = adjustDateToValidTimeSlot(selectedDate);
         console.log("Adjusted date being sent:", adjustedDate.toISOString());
-        if (!isThursday(selectedDate) || selectedDate.getHours() !== 16) {
-            alert("Please select a valid time slot on Thursday between 16:00 and 17:00.");
+        if (!isTuesday(selectedDate) || selectedDate.getHours() !== 16) {
+            alert("Please select a valid time slot on Tuesday between 16:00 and 17:00.");
             return;
         }
 
-        EventService.createEvent(topic, description, "TestSpeaker", adjustedDate.toISOString())
+        EventService.updateEvent(meetingId, topic, description, adjustedDate.toISOString())
             .then(() => {
                 setTopic("");
                 setDescription("");
                 setShowSuccessModal(true);
             })
             .catch((error) => {
-                console.error("Failed to create event:", error);
-                alert(`Failed to create event: ${error.response?.data?.error || 'Unknown error'}`);
+                console.error("Failed to update event:", error);
+                alert(`Failed to update event: ${error.response?.data?.error || 'Unknown error'}`);
             });
     };
 
@@ -60,7 +87,7 @@ const PresentationForm = () => {
                         selected={selectedDate}
                         onChange={handleDateChange}
                         showTimeSelect
-                        filterDate={isThursday}
+                        filterDate={isTuesday}
                         filterTime={(time) => time.getHours() === 16}
                         minDate={new Date()}
                         maxTime={new Date(new Date().setHours(17, 0, 0))}
@@ -68,20 +95,31 @@ const PresentationForm = () => {
                         dateFormat="MMMM d, yyyy h:mm aa"
                     />
                 </div>
-                <button type="submit" style={submitButtonStyle}>Create Presentation</button>
+                <div className='button-update'>
+                <button type="submit" className='submit-update-button'>Update meeting information</button>
+
+                </div>
             </form>
         </>
     );
 };
 
-const SuccessModal = ({ onClose }) => (
-  <div style={modalOverlayStyle}>
-      <div style={modalStyle}>
-          <p>Time slot booked successfully!</p>
-          <button onClick={onClose} style={closeButtonStyle}>Close</button>
-      </div>
-  </div>
-);
+const SuccessModal = ({ onClose }) => {
+
+  const handleClose = () => {
+    onClose();
+    window.location.href = "/home";
+  };
+
+  return (
+    <div style={modalOverlayStyle}>
+        <div style={modalStyle}>
+            <p>Meeting updated successfully!</p>
+            <button onClick={handleClose} style={closeButtonStyle}>Close</button>
+        </div>
+    </div>
+  );
+};
 
 const formStyle = {
   maxWidth: '400px',
@@ -108,7 +146,7 @@ const inputStyle = {
   borderRadius: '5px',
 };
 const fileButtonStyle = {
-  backgroundColor: '#008CBA',
+  backgroundColor: '#505',
   color: 'white',
   padding: '10px 15px',
   fontSize: '16px',
@@ -118,7 +156,7 @@ const fileButtonStyle = {
 };
 
 const uploadButtonStyle = {
-  backgroundColor: '#4CAF50',
+  backgroundColor: '#505',
   color: 'white',
   padding: '10px 15px',
   fontSize: '16px',
@@ -128,7 +166,7 @@ const uploadButtonStyle = {
   marginLeft: '10px'
 };
 const submitButtonStyle = {
-  backgroundColor: '#4CAF50',
+  backgroundColor: '#505',
   color: 'white',
   padding: '15px 20px',
   fontSize: '16px',
@@ -158,12 +196,12 @@ const modalStyle = {
 };
 
 const closeButtonStyle = {
-  backgroundColor: '#4CAF50',
-  color: 'white',
+  backgroundColor: '#505',
+    color: '#EFDAD1',
   padding: '10px 20px',
   border: 'none',
   borderRadius: '5px',
   cursor: 'pointer',
   marginTop: '10px',
 };
-export default PresentationForm;
+export default MeetingUpdateForm;
