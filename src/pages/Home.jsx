@@ -3,7 +3,8 @@ import AgendaService from "../Services/AgendaService";
 import Meeting from "../components/Meeting";
 import Search from "../layoutComponents/Search";
 import About from "./About";
-import './style/Home.css'
+
+import "../Style/Pages.css"
 
 
 function Home() {
@@ -49,7 +50,7 @@ function Home() {
       <Search onSearch={handleSearch}/>
         <div className="home">
           <div className="meetings-wrapper">
-            <h1>Upcoming Meetings</h1>
+            <label className="page-tittle">Upcoming Meetings</label>
             <div className="meeting-list">
               {upMeetings.map(meeting => (
                             <Meeting key={meeting.id} meeting={meeting} onFileUploaded={handleFileUploaded} />

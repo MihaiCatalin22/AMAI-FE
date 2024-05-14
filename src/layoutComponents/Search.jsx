@@ -1,5 +1,5 @@
 import React from 'react';
-import './style/Search.css';
+import "../Style/Layout.css"
 import EventService from '../Services/EventService';
 import { useState, useEffect } from "react";
 
