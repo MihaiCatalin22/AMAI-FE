@@ -3,8 +3,10 @@ import EventService from '../Services/EventService';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import "../Style/Pages.css"
+import { useAuth } from '../contexts/authContext';
 
 const PresentationForm = () => {
+  const { user } = useAuth();
   const [topic, setTopic] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -44,14 +46,19 @@ const PresentationForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!user) {
+      alert("You must be logged in to create a presentation.");
+      return;
+    }
     const adjustedDate = adjustDateToValidTimeSlot(selectedDate);
-    console.log("Adjusted date being sent:", adjustedDate.toISOString());
     if (!isThursday(selectedDate) || selectedDate.getHours() !== 16) {
       alert("Please select a valid time slot on Thursday between 16:00 and 17:00.");
       return;
     }
 
-    EventService.createEvent(topic, description, "TestSpeaker", adjustedDate.toISOString())
+    const speakerName = user.fullName || user.username; 
+
+    EventService.createEvent(topic, description, speakerName, adjustedDate.toISOString())
         .then(() => {
           setTopic("");
           setDescription("");
@@ -87,16 +94,16 @@ const PresentationForm = () => {
             <button onClick={onClose} className="close-button">Close</button>
           </div>
           <div className="input-group">
-            <label htmlFor="fileUpload" className="label">Upload File:</label>
+            {/* <label htmlFor="fileUpload" className="label">Upload File:</label>
             <input
                 type="file"
                 id="fileUpload"
                 onChange={handleFileInputChange}
                 style={{ display: 'none' }}
-            />
-            <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
+            /> */}
+            {/* <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
             <button onClick={handleFileUpload} className="upload-button">Upload</button>
-            {/* {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
+            {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
           </div>
           <br></br>
         </div>

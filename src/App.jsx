@@ -14,6 +14,7 @@ import VerifyFail from './pages/account/VerifyFail';
 import VerifySuccess from './pages/account/VerifySuccess';
 import MeetingInfo from './pages/MeetingInfo';
 import MeetingUpdatePage from './pages/MeetingUpdatePage';
+import ProfilePage from './pages/account/ProfilePage';
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
             <Route path="/meetings/past" element={<PastTalks />} />
             <Route path='/meeting/:id' element={<MeetingInfo/>}/>
             <Route path='/meetings/:id/update' element={<MeetingUpdatePage/>}/>
-
+            <Route path='/profile' element={<ProfilePage/>} />
         </Routes>
         </DefaultLayout>
         </AuthProvider>

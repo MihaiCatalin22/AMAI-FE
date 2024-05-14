@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import userService from '../Services/UserService';
+import UserService from '../Services/UserService';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 

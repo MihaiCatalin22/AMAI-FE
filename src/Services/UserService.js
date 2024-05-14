@@ -20,23 +20,6 @@ const afterSlash = "users";
     error => Promise.reject(error)
     );
 
-  const login = async (userData) => {
-    try {
-      const response = await api.post('/login', userData);
-      const data = response.data;
-      if (data.jwt) {
-        sessionStorage.setItem('user', JSON.stringify(data));
-        api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
-        return data;
-      } else {
-        throw new Error('JWT not received');
-      }
-    } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
-  };
-
 const UserService = {
     register: (user, url) => axios.post(`${API_URL}/${afterSlash}/register`, {
         "user": {
@@ -50,26 +33,23 @@ const UserService = {
     verify: (code) => axios.get(`${API_URL}/${afterSlash}/verify/${code}`),
     login: async (userData) => {
         try {
-            const response = await axios.post(`${API_URL}/${afterSlash}/login`, userData);
-            const data = response.data;
-            if (data.jwt) {
-                sessionStorage.setItem('user', JSON.stringify(data));
-                axios.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
-                return data;
-            } else {
-                throw new Error('JWT not received');
-            }
+          const response = await api.post('/users/login', userData);
+          const data = response.data;
+          if (data.jwt) {
+            sessionStorage.setItem('user', JSON.stringify(data));
+            api.defaults.headers.common['Authorization'] = `Bearer ${data.jwt}`;
+            return data;
+          } else {
+            throw new Error('JWT not received');
+          }
         } catch (error) {
-            console.error('Login error:', error);
-            throw error;
+          console.error('Login error:', error);
+          throw error;
         }
-    }
+      },
+      getUserById: (userId) => axios.get(`${API_URL}/${afterSlash}/${userId}`),
 }
 
-const userService = {
-    UserService,
-    login
-}
 
-export default userService;
+export default UserService;
 
