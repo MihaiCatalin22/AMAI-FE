@@ -1,0 +1,102 @@
+/* header */
+.Header {
+    background-color: #505;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 40px; /* Spacing between list items */
+}
+
+nav ul li:first-child {
+    margin-left: 0; /* Remove margin from the first list item */
+}git
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.3em;
+    transition: font-size 0.4s ease;
+}
+
+nav a:hover {
+    color: #EFDAD1;
+    font-size: 1.5em;
+}
+
+/* footer */
+footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #EFDAD1;
+    color: #381431;
+    padding: 20px 0;
+    text-align: center;
+    border-top: #381431 solid 4px;
+}
+
+
+.containerFooter {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.containerFooter p {
+    margin: 0;
+}
+
+/* search */
+.search-container {
+    display: flex;
+    padding: 5px;
+    text-align: left;
+    align-items: center;
+    background-color: #EFDAD1;
+}
+
+.search-container input[type="text"] {
+    padding: 8px 15px;
+    border: 2px solid #505;
+    border-radius: 8px;
+    margin-right: 10px;
+    width: 600px;
+    background-color: #f4f4f4;
+}
+
+.search-container button {
+    padding: 8px 15px;
+    border: 2px solid #505;
+    border-radius: 8px;
+    margin-right: 10px;
+    background-color: #505;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.search-container button:hover{
+    border: 2px solid #fff;
+    background-color: #fff;
+    color: #505;
+}
+.search-container select {
+    padding: 8px 15px;
+    border: 2px solid #505;
+    border-radius: 8px;
+    margin-right: 10px;
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
