@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import '../Style/Pages.css';
 import FileUploadComponent from "./FileUploadComponent";
-
+import FileService from "../Services/FileService";
 function Meeting({ meeting }) {
 
   const handleDownload = (filename) => {

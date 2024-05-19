@@ -15,6 +15,10 @@ function FileUploadComponent({ presentationId, onFileUploaded }) {
                 alert('File uploaded successfully');
                 onFileUploaded(response.data.fileName);
             })
+            .catch(error => {
+                alert('File upload failed');
+                console.error('Upload error:', error);
+            });
     };
 
     return (

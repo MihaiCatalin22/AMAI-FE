@@ -15,6 +15,7 @@ import VerifySuccess from './pages/account/VerifySuccess';
 import MeetingInfo from './pages/MeetingInfo';
 import MeetingUpdatePage from './pages/MeetingUpdatePage';
 import ProfilePage from './pages/account/ProfilePage';
+import Logout from './pages/account/Logout';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/reserve" element={<ReserveEvent />} />
             <Route path="/verify" element={<VerificationPortal />} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/logout" element={<Logout/>} />
             <Route path="/verifyFail" element={<VerifyFail />} />
             <Route path="/verifySuccess" element={<VerifySuccess />} />
             <Route path="/register" element={<Register />} />
