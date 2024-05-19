@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import '../Style/Pages.css';
 import FileUploadComponent from "./FileUploadComponent";
 import FileService from "../Services/FileService";
-function Meeting({ meeting }) {
+import { useAuth } from "../contexts/authContext";
 
+function Meeting({ meeting }) {
+  const { hasRole } = useAuth();
   const handleDownload = (filename) => {
     if (filename) {
         FileService.downloadFile(filename);
@@ -24,7 +26,7 @@ return (
       <Link to={`/meeting/${meeting.id}`}>{meeting.topic}</Link>
       <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
       <p>{meeting.description}</p>
-      {!meeting.fileName && (
+      {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
           <>
               <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileSelect} />
           </>

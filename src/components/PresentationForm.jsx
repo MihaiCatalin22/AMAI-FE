@@ -18,8 +18,8 @@ const PresentationForm = () => {
     setSelectedDate(date);
   };
 
-  const isThursday = (date) => {
-    return date.getDay() === 4;
+  const isTuesday = (date) => {
+    return date.getDay() === 2;
   };
 
   useEffect(() => {
@@ -51,8 +51,8 @@ const PresentationForm = () => {
       return;
     }
     const adjustedDate = adjustDateToValidTimeSlot(selectedDate);
-    if (!isThursday(selectedDate) || selectedDate.getHours() !== 16) {
-      alert("Please select a valid time slot on Thursday between 16:00 and 17:00.");
+    if (!isTuesday(selectedDate) || selectedDate.getHours() !== 16) {
+      alert("Please select a valid time slot on Tuesday between 16:00 and 17:00.");
       return;
     }
 
@@ -143,7 +143,7 @@ const PresentationForm = () => {
                 selected={selectedDate}
                 onChange={handleDateChange}
                 showTimeSelect
-                filterDate={isThursday}
+                filterDate={isTuesday}
                 filterTime={(time) => {
                   const hours = time.getHours();
                   return hours === 16;

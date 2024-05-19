@@ -5,7 +5,10 @@ import "../Style/Layout.css"
 import { useAuth } from "../contexts/authContext";
 
 function Header() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, hasRole } = useAuth();
+
+    console.log('Is Authenticated:', isAuthenticated); // Debugging statement
+    console.log('Has Role (SPEAKER, ADMIN):', hasRole(['SPEAKER', 'ADMIN'])); // Debugging statement
 
     return (
         <div className="Header">
@@ -18,9 +21,11 @@ function Header() {
                     <li>
                         <Link to="/meetings/past">Past Meetings</Link>
                     </li>
-                    <li>
-                        <Link to="/reserve">Reserve</Link>
-                    </li>
+                    {hasRole(['SPEAKER', 'ADMIN']) && (
+                        <li>
+                            <Link to="/reserve">Reserve</Link>
+                        </li>
+                    )}
                     {isAuthenticated ? (
                         <>
                             <li>
@@ -46,7 +51,6 @@ function Header() {
                 </ul>
             </nav>
         </div>
-        
     );
 }
  export default Header;

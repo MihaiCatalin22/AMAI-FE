@@ -5,9 +5,10 @@ import EventService from "../Services/EventService";
 import FileService from "../Services/FileService";
 import FileUploadComponent from "../components/FileUploadComponent";
 import './style/MeetingInfo.css'
+import { useAuth } from '../contexts/authContext';
 
 function MeetingInfo() {
-
+    const { hasRole } = useAuth();
     const { id } = useParams();
     const meetingId = parseInt(id, 10); // Convert id to integer
     const [meeting, setMeeting] = useState(null);
@@ -89,7 +90,7 @@ function MeetingInfo() {
                         <h2>{formatDate(meeting.date)}</h2>
                         <p><strong>Speaker(s):</strong> {meeting.speakers}</p>
                         <p><strong>Description:</strong> {meeting.description}</p>
-                        {!meeting.fileName && (
+                        {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
                            <>
                            <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileSelect} />
                            </>
