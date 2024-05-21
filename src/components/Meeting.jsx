@@ -20,6 +20,9 @@ function Meeting({ meeting }) {
     }
   };
 
+  const handleFileUploaded = (uploadedFileName) => {
+    meeting.fileName = uploadedFileName;
+  };
 return (
   <div className="meeting">
       <h2>{meeting.formattedDate}</h2>
@@ -27,16 +30,19 @@ return (
       <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
       <p>{meeting.description}</p>
       {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
-          <>
-              <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileSelect} />
-          </>
+        <>
+          <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={false} />
+        </>
       )}
       {meeting.fileName && (
-          <>
-              <button onClick={() => handleDownload(meeting.fileName)}>
-                  Download Presentation
-              </button>
-              <p>File: {meeting.fileName}</p>
+        <>
+          <button onClick={() => handleDownload(meeting.fileName)}>
+            Download Presentation
+          </button>
+          <p>File: {meeting.fileName}</p>
+          {hasRole(['SPEAKER', 'ADMIN']) && (
+            <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={true} />
+          )}
           </>
       )}
   </div>
