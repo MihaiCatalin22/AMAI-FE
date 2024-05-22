@@ -32,6 +32,7 @@ function Home() {
           formattedDate: formatDate(meeting.date)
         }));
         setUpMeetings(formattedMeetings);
+        console.log(formattedMeetings);
       }).catch(error => console.error("Error fetching upcoming meetings:", error));
     }, []);
 
