@@ -4,6 +4,7 @@ import EventService from '../Services/EventService';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import '../Style/Pages.css';
+import FileUploadComponent from './FileUploadComponent';
 
 const MeetingUpdateForm = () => {
 
