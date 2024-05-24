@@ -13,6 +13,7 @@ const PresentationForm = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState(null);
+  const [selectedDuration, setSelectedDuration] = useState(null);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -28,14 +29,16 @@ const PresentationForm = () => {
 
   const fetchAvailableSlots = () => {
     const formattedDate = selectedDate.toISOString().slice(0, 10);
-    EventService.getAvailableSlots(formattedDate)
-        .then(response => {
-          setAvailableSlots(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching available slots:', error);
-        });
+    const duration = selectedDuration ? parseInt(selectedDuration) : 10; 
+    EventService.getAvailableSlots(formattedDate, duration)
+      .then(response => {
+        setAvailableSlots(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching available slots:', error);
+      });
   };
+  
 
   const adjustDateToValidTimeSlot = (date) => {
     let adjustedDate = new Date(date);
@@ -73,18 +76,10 @@ const PresentationForm = () => {
         });
   };
 
-  // const handleFileInputChange = (e) => {
-  //   //setSelectedFile(e.target.files[0]);
-  // };
-
-  // const handleFileUpload = () => {
-  //   // here goes the upload logic, but for now we just show file name :D
-  //   if (selectedFile) {
-  //     console.log("Selected file:", selectedFile.name);
-  //   } else {
-  //     console.log("No file selected");
-  //   }
-  // };
+  const handleDurationChange = (event) => {
+    const value = event.target.value;
+    setSelectedDuration((prev) => (prev === value ? null : value));
+  };
 
   const SuccessModal = ({ onClose }) => {
     return (
@@ -94,16 +89,6 @@ const PresentationForm = () => {
             <button onClick={onClose} className="close-button">Close</button>
           </div>
           <div className="input-group">
-            {/* <label htmlFor="fileUpload" className="label">Upload File:</label>
-            <input
-                type="file"
-                id="fileUpload"
-                onChange={handleFileInputChange}
-                style={{ display: 'none' }}
-            /> */}
-            {/* <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
-            <button onClick={handleFileUpload} className="upload-button">Upload</button>
-            {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
           </div>
           <br></br>
         </div>
@@ -138,20 +123,62 @@ const PresentationForm = () => {
             />
           </div>
           <div className="input-group">
+            <div className="checkbox-group">
+              <label className="medium-text">Select Duration:</label>
+              <div className="small-text">
+                <input
+                  type="checkbox"
+                  id="duration10"
+                  name="duration"
+                  value="10"
+                  checked={selectedDuration === "10"}
+                  onChange={handleDurationChange}
+                  disabled={selectedDuration && selectedDuration !== "10"}
+                />
+                <label htmlFor="duration10"> 10 minutes</label>
+              </div>
+              <div className="small-text">
+                <input
+                  type="checkbox"
+                  id="duration20"
+                  name="duration"
+                  value="20"
+                  checked={selectedDuration === "20"}
+                  onChange={handleDurationChange}
+                  disabled={selectedDuration && selectedDuration !== "20"}
+                />
+                <label htmlFor="duration20"> 20 minutes</label>
+              </div>
+              <div className="small-text">
+                <input
+                  type="checkbox"
+                  id="duration30"
+                  name="duration"
+                  value="30"
+                  checked={selectedDuration === "30"}
+                  onChange={handleDurationChange}
+                  disabled={selectedDuration && selectedDuration !== "30"}
+                />
+                <label htmlFor="duration30"> 30 minutes</label>
+              </div>
+            </div>
+            <br/>
             <label htmlFor="presentationDate" className="medium-text">Presentation Date:</label>
             <DatePicker
-                selected={selectedDate}
-                onChange={handleDateChange}
-                showTimeSelect
-                filterDate={isTuesday}
-                filterTime={(time) => {
-                  const hours = time.getHours();
-                  return hours === 16;
-                }}
-                minDate={new Date()}
-                maxTime={new Date(new Date().setHours(17, 0, 0))}
-                minTime={new Date(new Date().setHours(16, 0, 0))}
-                dateFormat="MMMM d, yyyy h:mm aa"
+              selected={selectedDate}
+              onChange={handleDateChange}
+              showTimeSelect
+              filterDate={isTuesday}
+              filterTime={(time) => {
+                const hours = time.getHours();
+                const duration = selectedDuration ? parseInt(selectedDuration) : 10;
+                const minutes = duration; 
+                return hours === 16;
+              }}
+              minDate={new Date()}
+              maxTime={new Date(new Date().setHours(17, 0, 0))}
+              minTime={new Date(new Date().setHours(16, 0, 0))}
+              dateFormat="MMMM d, yyyy h:mm aa"
             />
           </div>
           <button type="submit" className="button">Create Presentation</button>
@@ -161,4 +188,3 @@ const PresentationForm = () => {
 };
 
 export default PresentationForm;
-
