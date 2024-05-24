@@ -30,7 +30,8 @@ function App() {
             <Route index element= {<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/meetings" element={<Home />} />
-            <Route path="/reserve" element={<ProtectedRoute element={ReserveEvent } requiredRoles={['SPEAKER', 'ADMIN']} />} />
+            <Route path="/reserve" element={<ReserveEvent/>} />
+
             <Route path="/verify" element={<VerificationPortal />} />
             <Route path="/login" element={<Login/>} />
             <Route path="/logout" element={<Logout/>} />

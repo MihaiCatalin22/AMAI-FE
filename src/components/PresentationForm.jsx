@@ -13,6 +13,8 @@ const PresentationForm = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState(null);
+  const [isUserSpeaker, setIsUserSpeaker] = useState(true);
+  const [speakerName, setSpeakerName] = useState('');
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -56,9 +58,14 @@ const PresentationForm = () => {
       return;
     }
 
-    const speakerName = user.fullName || user.username; 
+    let finalSpeakerName;
+    if (isUserSpeaker) {
+      finalSpeakerName = user;
+    } else {
+      finalSpeakerName = speakerName;
+    }
 
-    EventService.createEvent(topic, description, speakerName, adjustedDate.toISOString())
+    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakers, adjustedDate.toISOString())
         .then(() => {
           setTopic("");
           setDescription("");
@@ -154,6 +161,27 @@ const PresentationForm = () => {
                 dateFormat="MMMM d, yyyy h:mm aa"
             />
           </div>
+
+          <div className="input-group">
+          <input
+            type="checkbox"
+            id="isUserSpeaker"
+            checked={isUserSpeaker}
+            onChange={(e) => setIsUserSpeaker(e.target.checked)}
+          />
+          <label htmlFor="isUserSpeaker" className="medium-text">I am the speaker</label>
+        </div>
+        <div className="input-group">
+          <label htmlFor="speakerName" className="medium-text">Speaker Name:</label>
+          <input
+            type="text"
+            id="speakerName"
+            onChange={(e) => setSpeakerName(e.target.value)}
+            className="input"
+            disabled={isUserSpeaker}
+            required={!isUserSpeaker}
+          />
+        </div>
           <button type="submit" className="button">Create Presentation</button>
         </form>
       </>

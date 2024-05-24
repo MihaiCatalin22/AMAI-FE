@@ -8,11 +8,12 @@ const EventService = {
 
     getAllEvents: () => axios.get(`${API_URL}/${afterSlash}`),
 
-    createEvent: (topic, description, speakers, date) => axios.post(`${API_URL}/${afterSlash}`,
+    createEvent: (topic, description, speaker, speakers, date) => axios.post(`${API_URL}/${afterSlash}`,
     {
         "topic": topic,
         "description": description,
-        "speakers":[speakers] ,
+        "speaker": speaker,
+        "speakers": speakers ? [speakers] : null,
         "date": date
     }
     ),

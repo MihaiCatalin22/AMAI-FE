@@ -88,7 +88,11 @@ function MeetingInfo() {
                     <div className='meeting-info'>
                         <h1>{meeting.topic}</h1>
                         <h2>{formatDate(meeting.date)}</h2>
-                        <p><strong>Speaker(s):</strong> {meeting.speakers}</p>
+                        {meeting.speakers !== null ? (
+                          <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
+                          ) : (
+                         <p><strong>Speaker:</strong> {meeting.speaker.fullName}</p>
+                        )}                       
                         <p><strong>Description:</strong> {meeting.description}</p>
                         {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
                            <>
