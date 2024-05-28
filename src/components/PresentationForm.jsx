@@ -112,6 +112,29 @@ const PresentationForm = () => {
       </select>
     );
   };
+  const SuccessModal = ({ onClose }) => {
+    return (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Time slot booked successfully!</p>
+            <button onClick={onClose} className="close-button">Close</button>
+          </div>
+          <div className="input-group">
+            {/* <label htmlFor="fileUpload" className="label">Upload File:</label>
+            <input
+                type="file"
+                id="fileUpload"
+                onChange={handleFileInputChange}
+                style={{ display: 'none' }}
+            /> */}
+            {/* <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
+            <button onClick={handleFileUpload} className="upload-button">Upload</button>
+            {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
+          </div>
+          <br></br>
+        </div>
+    );
+  };
 
   return (
     <>
