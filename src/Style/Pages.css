@@ -30,6 +30,9 @@ body {
     color: white;
     font-size: 15pt;
 }
+.small-text{
+    color: white;
+}
 
 .button {
     background-color: #4CAF50;
