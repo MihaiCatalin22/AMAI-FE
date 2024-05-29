@@ -13,7 +13,7 @@ const EventService = {
         "topic": topic,
         "description": description,
         "speaker": speaker,
-        "speakers": speakers ? [speakers] : null,
+        "speakers": speakers,
         "date": date
     }
     ),

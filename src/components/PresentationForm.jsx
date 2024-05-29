@@ -14,7 +14,7 @@ const PresentationForm = () => {
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState(null);
   const [isUserSpeaker, setIsUserSpeaker] = useState(true);
-  const [speakerName, setSpeakerName] = useState('');
+  const [speakerName, setSpeakerName] = useState([]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -62,10 +62,10 @@ const PresentationForm = () => {
     if (isUserSpeaker) {
       finalSpeakerName = user;
     } else {
-      finalSpeakerName = speakerName;
+      finalSpeakerName = null;
     }
 
-    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakers, adjustedDate.toISOString())
+    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakerName, adjustedDate.toISOString())
         .then(() => {
           setTopic("");
           setDescription("");
@@ -176,7 +176,7 @@ const PresentationForm = () => {
           <input
             type="text"
             id="speakerName"
-            onChange={(e) => setSpeakerName(e.target.value)}
+            onChange={(e) => setSpeakerName(e.target.value.split(',').map(speaker => speaker.trim()))}
             className="input"
             disabled={isUserSpeaker}
             required={!isUserSpeaker}
