@@ -27,7 +27,11 @@ return (
   <div className="meeting">
       <h2>{meeting.formattedDate}</h2>
       <Link to={`/meeting/${meeting.id}`}>{meeting.topic}</Link>
-      <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
+      {meeting.speakers && meeting.speakers.length > 0 ? (
+        <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
+    ) : (
+        <p><strong>Speaker:</strong> {meeting.speaker ? meeting.speaker.fullName : 'No Speaker'}</p>
+    )}
       <p>{meeting.description}</p>
       {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
         <>
