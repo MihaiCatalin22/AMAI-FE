@@ -4,6 +4,7 @@ import EventService from '../Services/EventService';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import '../Style/Pages.css';
+import FileUploadComponent from './FileUploadComponent';
 
 const MeetingUpdateForm = () => {
 
@@ -15,6 +16,7 @@ const MeetingUpdateForm = () => {
     const [description, setDescription] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [fileName, setFileName] = useState('');
 
     useEffect(() => {
         EventService.getEvent(meetingId)
@@ -67,6 +69,11 @@ const MeetingUpdateForm = () => {
             });
     };
 
+
+    const handleFileUploaded = (uploadedFileName) => {
+      setFileName(uploadedFileName);
+  };
+
     return (
         <>
             {showSuccessModal && (
@@ -94,6 +101,14 @@ const MeetingUpdateForm = () => {
                         minTime={new Date(new Date().setHours(16, 0, 0))}
                         dateFormat="MMMM d, yyyy h:mm aa"
                     />
+                </div>
+                <div style={inputGroupStyle}>
+                    <FileUploadComponent presentationId={meetingId} onFileUploaded={handleFileUploaded} isUpdate={!!fileName} />
+                    {fileName && (
+                        <div>
+                            <p>Current file: {fileName}</p>
+                        </div>
+                    )}
                 </div>
                 <div className='button-update'>
                 <button type="submit" className='submit-update-button'>Update meeting information</button>

@@ -32,12 +32,12 @@ function MeetingInfo() {
         }
     };
     
-      const handleFileSelect = (event) => {
-        const file = event.target.files[0];
-        if (file && onFileUpload) {
-          onFileUpload(meeting.id, file);
-        }
-      };
+    const handleFileUploaded = (uploadedFileName) => {
+      setMeeting(prevMeeting => ({
+          ...prevMeeting,
+          fileName: uploadedFileName
+      }));
+  };
 
     function formatDate(dateString) {
         const date = new Date(dateString);
@@ -95,20 +95,19 @@ function MeetingInfo() {
                         )}                       
                         <p><strong>Description:</strong> {meeting.description}</p>
                         {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
-                           <>
-                           <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileSelect} />
-                           </>
-                        )}
-                   
-                        {meeting.fileName && (
-                          <>
-                          <button onClick={() => handleDownload(meeting.fileName)}>
-                          Download Presentation
-                          </button>
-                          <p>File: {meeting.fileName}</p>
-                          </>
-                        )}
-
+                                <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={false} />
+                            )}
+                            {meeting.fileName && (
+                                <>
+                                    <button onClick={() => handleDownload(meeting.fileName)}>
+                                        Download Presentation
+                                    </button>
+                                    <p>File: {meeting.fileName}</p>
+                                    {hasRole(['SPEAKER', 'ADMIN']) && (
+                                        <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={true} />
+                                    )}
+                                </>
+                            )}
                        <div className='buttons'>
                          <button className='delete-button' onClick={handleDelete}>Delete Meeting</button>
                          <button className='update-button' onClick={handleUpdate}>Update Meeting</button>

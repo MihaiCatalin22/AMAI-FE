@@ -30,9 +30,9 @@ const EventService = {
 
     searchEventsByTopic: (topic) => axios.get(`${API_URL}/${afterSlash}/search?topic=${topic}`),
 
-    getAvailableSlots: (date) => {
+    getAvailableSlots: (date, duration) => {
         return axios.get(`${API_URL}/${afterSlash}/availableSlots`, {
-            params: { date }
+            params: { date, duration }
         });
     },
 
