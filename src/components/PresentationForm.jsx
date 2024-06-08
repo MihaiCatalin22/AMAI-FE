@@ -8,6 +8,7 @@ import { useAuth } from '../contexts/authContext';
 const PresentationForm = () => {
   const { user } = useAuth();
   const [topic, setTopic] = useState('');
+  const [speakerName, setSpeakerName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showSuccessModal, setShowSuccessModal] = useState(false);
