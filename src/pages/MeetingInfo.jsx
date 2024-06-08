@@ -83,14 +83,18 @@ function MeetingInfo() {
 
             {meeting && (
                 <>
-                    <div className="meeting-info-wrapper">
-
-                        <div className='meeting-info'>
-                            <h1>{meeting.topic}</h1>
-                            <h2>{formatDate(meeting.date)}</h2>
-                            <p><strong>Speaker(s):</strong> {meeting.speakers}</p>
-                            <p><strong>Description:</strong> {meeting.description}</p>
-                            {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
+                   <div className="meeting-info-wrapper">
+                    
+                    <div className='meeting-info'>
+                        <h1>{meeting.topic}</h1>
+                        <h2>{formatDate(meeting.date)}</h2>
+                        {meeting.speakers !== null ? (
+                          <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
+                          ) : (
+                         <p><strong>Speaker:</strong> {meeting.speaker.fullName}</p>
+                        )}                       
+                        <p><strong>Description:</strong> {meeting.description}</p>
+                        {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
                                 <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={false} />
                             )}
                             {meeting.fileName && (

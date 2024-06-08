@@ -13,7 +13,11 @@ const PresentationForm = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState(null);
+
+  const [isUserSpeaker, setIsUserSpeaker] = useState(true);
+
   const [selectedDuration, setSelectedDuration] = useState(10); // Default to 10 minutes
+
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -57,21 +61,26 @@ const PresentationForm = () => {
       return;
     }
 
-    const speakerName = user.fullName || user.username;
+    let finalSpeakerName;
+    if (isUserSpeaker) {
+      finalSpeakerName = user;
+    } else {
+      finalSpeakerName = null;
+    }
 
-    EventService.createEvent(topic, description, speakerName, adjustedDate.toISOString())
-      .then(() => {
-        setTopic("");
-        setDescription("");
-        setShowSuccessModal(true);
-      })
-      .catch((error) => {
-        console.error("Failed to create event:", error);
-        if (error.response) {
-          console.log("Server response:", error.response.data);
-          alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
-        }
-      });
+    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakerName, adjustedDate.toISOString())
+        .then(() => {
+          setTopic("");
+          setDescription("");
+          setShowSuccessModal(true);
+        })
+        .catch((error) => {
+          console.error("Failed to create event:", error);
+          if (error.response) {
+            console.log("Server response:", error.response.data);
+            alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
+          }
+        });
   };
 
   const handleDurationChange = (event) => {
@@ -161,6 +170,27 @@ const PresentationForm = () => {
             onChange={(e) => setDescription(e.target.value)}
             className="input"
             required
+          />
+        </div>
+        
+          <div className="input-group">
+          <input
+            type="checkbox"
+            id="isUserSpeaker"
+            checked={isUserSpeaker}
+            onChange={(e) => setIsUserSpeaker(e.target.checked)}
+          />
+          <label htmlFor="isUserSpeaker" className="medium-text">I am the speaker</label>
+        </div>
+        <div className="input-group">
+          <label htmlFor="speakerName" className="medium-text">Speaker Name:</label>
+          <input
+            type="text"
+            id="speakerName"
+            onChange={(e) => setSpeakerName(e.target.value.split(',').map(speaker => speaker.trim()))}
+            className="input"
+            disabled={isUserSpeaker}
+            required={!isUserSpeaker}
           />
         </div>
         <div className="input-group">
