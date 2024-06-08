@@ -43,6 +43,7 @@ const UserService = {
       }
   },
   getUserById: (userId) => axios.get(`${API_URL}/${afterSlash}/${userId}`),
+    subscribe:(userId,boolean) => axios.put(`${API_URL}/${afterSlash}/${userId}/calendar/${boolean}`),
 }
 
 export default UserService;
