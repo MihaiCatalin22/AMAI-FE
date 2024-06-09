@@ -30,7 +30,6 @@ function App() {
             <Route index element= {<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/meetings" element={<Home />} />
-            <Route path="/reserve" element={<ReserveEvent/>} />
 
             <Route path="/verify" element={<VerificationPortal />} />
             <Route path="/login" element={<Login/>} />
@@ -42,8 +41,8 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/meetings/past" element={<PastTalks />} />
             <Route path='/meeting/:id' element={<MeetingInfo/>}/>
-            <Route path="/meetings/:id/update" element={<ProtectedRoute element={MeetingUpdatePage } requiredRoles={['SPEAKER', 'ADMIN']} />} />
-            <Route path='/profile' element={<ProfilePage/>} />
+            <Route path="/reserve" element={<ProtectedRoute element={ReserveEvent } requiredRoles={['SPEAKER', 'ADMIN']} />} />
+            <Route path="/meetings/:id/update" element={<MeetingUpdatePage />} />
             <Route path="/profile" element={<ProtectedRoute element={ProfilePage } requiredRoles={['SPEAKER', 'ADMIN', 'USER']} />} />
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
 

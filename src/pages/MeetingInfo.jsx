@@ -8,7 +8,7 @@ import './style/MeetingInfo.css'
 import { useAuth } from '../contexts/authContext';
 
 function MeetingInfo() {
-    const { hasRole } = useAuth();
+    const { hasRole, isAuthenticated, user } = useAuth();
     const { id } = useParams();
     const meetingId = parseInt(id, 10); // Convert id to integer
     const [meeting, setMeeting] = useState(null);
@@ -53,7 +53,6 @@ function MeetingInfo() {
     }
 
 
-
     const handleDelete = () =>{
         const confirmDelete = window.confirm("Are you sure you want to delete this meeting?")
         if(confirmDelete){
@@ -76,8 +75,8 @@ function MeetingInfo() {
     return (
         <div className="meeting-info-container">
             {deleteStatus && (
-                <div className={updateStatus.success ? "success-message" : "error-message"}>
-                    {updateStatus.success ? "Meeting deleted successfully!" : "Error deleting information. Please try again."}
+                <div className={deleteStatus.success ? "success-message" : "error-message"}>
+                    {deleteStatus.success ? "Meeting deleted successfully!" : "Error deleting information. Please try again."}
                 </div>
             )}
 
@@ -94,22 +93,33 @@ function MeetingInfo() {
                          <p><strong>Speaker:</strong> {meeting.speaker.fullName}</p>
                         )}                       
                         <p><strong>Description:</strong> {meeting.description}</p>
-                        {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
-                                <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={false} />
-                            )}
-                            {meeting.fileName && (
-                                <>
-                                    <button onClick={() => handleDownload(meeting.fileName)}>
-                                        Download Presentation
-                                    </button>
-                                    <p>File: {meeting.fileName}</p>
-                                    {hasRole(['SPEAKER', 'ADMIN']) && (
-                                        <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={true} />
-                                    )}
-                                </>
-                            )}
-                            <div className='buttons'>
-                                {hasRole(['SPEAKER', 'ADMIN']) && (
+                        {isAuthenticated && (
+                                    hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)
+                                ) && (
+                                    <>
+                                        {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
+                                            <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={false} />
+                                        )}
+                                        {meeting.fileName && (
+                                            <>
+                                                <button onClick={() => handleDownload(meeting.fileName)}>
+                                                    Download Presentation
+                                                </button>
+                                                <p>File: {meeting.fileName}</p>
+                                                {hasRole(['SPEAKER', 'ADMIN']) && (
+                                                    <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={true} />
+                                                )}
+                                            </>
+                                        )}
+                                    </>
+                                )}
+
+
+                        
+                             <div className='buttons'>
+                                {isAuthenticated && (
+                                    hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)
+                                ) && (
                                     <>
                                         <button className='delete-button' onClick={handleDelete}>Delete Meeting</button>
                                         <button className='update-button' onClick={handleUpdate}>Update Meeting</button>

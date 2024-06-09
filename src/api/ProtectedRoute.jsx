@@ -5,11 +5,13 @@ import {useAuth} from "../contexts/authContext";
 const ProtectedRoute = ({ element: Component, requiredRoles, ...rest }) => {
     const { isAuthenticated, hasRole } = useAuth();
 
-    if(!isAuthenticated){
+    //if(!isAuthenticated){
+   //     console.log("lol")
+   //     console.log(isAuthenticated);
+  //    return <Navigate to="/login" />;
+  // }
+    if(!isAuthenticated && !hasRole(requiredRoles)){
         return <Navigate to="/login" />;
-    }
-    if(isAuthenticated && !hasRole(requiredRoles)){
-        return <Navigate to="/unauthorized" />;
     }
 
     return <Component/>;
