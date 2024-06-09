@@ -69,7 +69,7 @@ const PresentationForm = () => {
       finalSpeakerName = null;
     }
 
-    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakerName, adjustedDate.toISOString())
+    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakerName, adjustedDate.toISOString(),selectedDuration)
         .then(() => {
           setTopic("");
           setDescription("");

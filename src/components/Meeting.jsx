@@ -44,6 +44,7 @@ return (
         )}
         <br/>
         <p><b>{meeting.formattedDate}</b></p>
+        <p>Duration: <b>{meeting.duration}</b> minutes</p>
     </div>
 );
 }
