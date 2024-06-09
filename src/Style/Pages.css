@@ -14,8 +14,26 @@ body {
     place-items: center;
     min-width: 320px;
     min-height: 100vh;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
+.modalStyle{
+    color: white;
+}
+.messages{
+    color: white;
+}
+.register-message{
+    color: white;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+}
+.container {
+    flex: 1;
+}
 
 .page-tittle{
     text-align: center;

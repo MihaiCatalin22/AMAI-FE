@@ -5,9 +5,9 @@ import "../../Style/Pages.css";
 
 function RegisterSuccess(){
     return(
-        <div class="container text-center">
-        <h3>You have signed up successfully!</h3>
-        <p>Please check your email to verify your account.</p>     
+        <div className="register-message">
+        <h3>You have registered successfully!</h3>
+        <p>If you are a teacher, please check your email to verify your account.</p>
         <h4><Link to="/login">Login</Link></h4>
     </div>
     )

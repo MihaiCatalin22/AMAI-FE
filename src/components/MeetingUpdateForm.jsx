@@ -88,28 +88,6 @@ const MeetingUpdateForm = () => {
                     <label htmlFor="description" style={labelStyle}>Description:</label>
                     <textarea id="description" value={description} onChange={e => setDescription(e.target.value)} style={{ ...inputStyle, height: '100px' }} required />
                 </div>
-                <div style={inputGroupStyle}>
-                    <label htmlFor="presentationDate" style={labelStyle}>Presentation Date:</label>
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        showTimeSelect
-                        filterDate={isTuesday}
-                        filterTime={(time) => time.getHours() === 16}
-                        minDate={new Date()}
-                        maxTime={new Date(new Date().setHours(17, 0, 0))}
-                        minTime={new Date(new Date().setHours(16, 0, 0))}
-                        dateFormat="MMMM d, yyyy h:mm aa"
-                    />
-                </div>
-                <div style={inputGroupStyle}>
-                    <FileUploadComponent presentationId={meetingId} onFileUploaded={handleFileUploaded} isUpdate={!!fileName} />
-                    {fileName && (
-                        <div>
-                            <p>Current file: {fileName}</p>
-                        </div>
-                    )}
-                </div>
                 <div className='button-update'>
                 <button type="submit" className='submit-update-button'>Update meeting information</button>
 

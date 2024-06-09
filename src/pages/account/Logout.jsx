@@ -16,7 +16,7 @@ const Logout = () => {
     }, [logoutUser, navigate]);
 
     return (
-        <div className="LogoutPage">
+        <div className="LogoutPage messages">
             <h2>Logging Out</h2>
             <p>Logging out, please wait...</p>
         </div>

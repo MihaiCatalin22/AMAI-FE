@@ -87,36 +87,38 @@ function MeetingInfo() {
                     <div className='meeting-info'>
                         <h1>{meeting.topic}</h1>
                         <h2>{formatDate(meeting.date)}</h2>
-                        {meeting.speakers !== null ? (
-                          <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
-                          ) : (
-                         <p><strong>Speaker:</strong> {meeting.speaker.fullName}</p>
-                        )}                       
+                        {meeting.speakers && meeting.speakers.length > 0 ? (
+                            <p><strong>Speaker(s):</strong> {meeting.speakers.join(', ')}</p>
+                        ) : (
+                            <p><strong>Speaker:</strong> {meeting.speaker ? meeting.speaker.fullName : 'No Speaker'}</p>
+                        )}
                         <p><strong>Description:</strong> {meeting.description}</p>
                         {isAuthenticated && (
                                     hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)
                                 ) && (
+                            <>
+                                <p>Upload / Download presentation:</p>
+                                {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
+                                    <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded}
+                                                         isUpdate={false}/>
+                                )}
+                                {meeting.fileName && (
                                     <>
-                                        {!meeting.fileName && hasRole(['SPEAKER', 'ADMIN']) && (
-                                            <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={false} />
-                                        )}
-                                        {meeting.fileName && (
-                                            <>
-                                                <button onClick={() => handleDownload(meeting.fileName)}>
-                                                    Download Presentation
-                                                </button>
-                                                <p>File: {meeting.fileName}</p>
-                                                {hasRole(['SPEAKER', 'ADMIN']) && (
-                                                    <FileUploadComponent presentationId={meeting.id} onFileUploaded={handleFileUploaded} isUpdate={true} />
-                                                )}
-                                            </>
+                                        <button onClick={() => handleDownload(meeting.fileName)}>
+                                            Download Presentation
+                                        </button>
+                                        <p>Update presentation:</p>
+                                        {hasRole(['SPEAKER', 'ADMIN']) && (
+                                            <FileUploadComponent presentationId={meeting.id}
+                                                                 onFileUploaded={handleFileUploaded} isUpdate={true}/>
                                         )}
                                     </>
                                 )}
+                            </>
+                        )}
 
 
-                        
-                             <div className='buttons'>
+                        <div className='buttons'>
                                 {isAuthenticated && (
                                     hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)
                                 ) && (
