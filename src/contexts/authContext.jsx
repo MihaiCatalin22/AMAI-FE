@@ -16,14 +16,14 @@ const updateAxiosToken = (token) => {
 const TokenManager = {
   getAccessToken: () => sessionStorage.getItem("accessToken"),
   setAccessToken: (token) => {
-      sessionStorage.setItem("accessToken", token);
-      const claims = jwtDecode(token);
-      sessionStorage.setItem("claims", JSON.stringify(claims));
-      return claims;
+    sessionStorage.setItem("accessToken", token);
+    const claims = jwtDecode(token);
+    sessionStorage.setItem("claims", JSON.stringify(claims));
+    return claims;
   },
   clear: () => {
-      sessionStorage.removeItem("accessToken");
-      sessionStorage.removeItem("claims");
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("claims");
   }
 };
 
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const loginUser = async (userData) => {
+  const loginUser = (userData) => {
     const claims = TokenManager.setAccessToken(userData.token);
     const updatedUserData = {
       ...userData,

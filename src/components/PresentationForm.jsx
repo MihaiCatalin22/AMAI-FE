@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import EventService from '../Services/EventService';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,7 +19,6 @@ const PresentationForm = () => {
 
   const [selectedDuration, setSelectedDuration] = useState(10); // Default to 10 minutes
 
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -29,7 +28,9 @@ const PresentationForm = () => {
   };
 
   useEffect(() => {
-    fetchAvailableSlots();
+    if (isTuesday(selectedDate)) {
+      fetchAvailableSlots();
+    }
   }, [selectedDate, selectedDuration]);
 
   const fetchAvailableSlots = () => {
@@ -69,19 +70,20 @@ const PresentationForm = () => {
       finalSpeakerName = null;
     }
 
-    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakerName, adjustedDate.toISOString(),selectedDuration)
-        .then(() => {
-          setTopic("");
-          setDescription("");
-          setShowSuccessModal(true);
-        })
-        .catch((error) => {
-          console.error("Failed to create event:", error);
-          if (error.response) {
-            console.log("Server response:", error.response.data);
-            alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
-          }
-        });
+    EventService.createEvent(topic, description, finalSpeakerName, isUserSpeaker ? null : speakerName, adjustedDate.toISOString(), selectedDuration)
+      .then(() => {
+        setTopic("");
+        setDescription("");
+        setShowSuccessModal(true);
+        fetchAvailableSlots(); // Refresh available slots after creating an event
+      })
+      .catch((error) => {
+        console.error("Failed to create event:", error);
+        if (error.response) {
+          console.log("Server response:", error.response.data);
+          alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
+        }
+      });
   };
 
   const handleDurationChange = (event) => {
@@ -95,7 +97,7 @@ const PresentationForm = () => {
     const startTime = new Date(date);
     startTime.setHours(16, 0, 0, 0); // 4:00 PM
     const endTime = new Date(date);
-    endTime.setHours(16, 60 - duration, 0, 0); 
+    endTime.setHours(17, 0, 0, 0); // 5:00 PM
 
     const times = [];
     let currentTime = startTime;
@@ -114,35 +116,19 @@ const PresentationForm = () => {
 
     return (
       <select value={`${date.getHours()}:${date.getMinutes()}`} onChange={handleTimeChange}>
-        {times.map((time, index) => (
-          <option key={index} value={`${time.getHours()}:${time.getMinutes()}`}>
-            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </option>
-        ))}
+        {times.map((time, index) => {
+          const isTaken = availableSlots.some(slot => {
+            const slotStartTime = new Date(`${slot.date}T${slot.start}`);
+            return slotStartTime.getTime() === time.getTime();
+          });
+
+          return (
+            <option key={index} value={`${time.getHours()}:${time.getMinutes()}`} disabled={isTaken} style={{ color: isTaken ? 'red' : 'black' }}>
+              {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            </option>
+          );
+        })}
       </select>
-    );
-  };
-  const SuccessModal = ({ onClose }) => {
-    return (
-        <div className="modal-overlay">
-          <div className="modal">
-            <p>Time slot booked successfully!</p>
-            <button onClick={onClose} className="close-button">Close</button>
-          </div>
-          <div className="input-group">
-            {/* <label htmlFor="fileUpload" className="label">Upload File:</label>
-            <input
-                type="file"
-                id="fileUpload"
-                onChange={handleFileInputChange}
-                style={{ display: 'none' }}
-            /> */}
-            {/* <button onClick={() => document.getElementById('fileUpload').click()} className="file-button">Choose File</button>
-            <button onClick={handleFileUpload} className="upload-button">Upload</button>
-            {selectedFile && <p>Selected file: {selectedFileName}</p>} */}
-          </div>
-          <br></br>
-        </div>
     );
   };
 
@@ -174,7 +160,7 @@ const PresentationForm = () => {
           />
         </div>
         
-          <div className="input-group">
+        <div className="input-group">
           <input
             type="checkbox"
             id="isUserSpeaker"
@@ -240,16 +226,26 @@ const PresentationForm = () => {
             timeIntervals={selectedDuration}
             filterDate={isTuesday}
             minDate={new Date()}
-            maxTime={new Date(new Date().setHours(16, 60 - selectedDuration, 0))}
+            maxTime={new Date(new Date().setHours(17, 0, 0))}
             minTime={new Date(new Date().setHours(16, 0, 0))}
             dateFormat="MMMM d, yyyy h:mm aa"
             customTimeInput={<CustomTimeInput date={selectedDate} onChange={handleDateChange} />}
-            //disabledKeyboardNavigation // Disable manual input
           />
         </div>
         <button type="submit" className="button">Create Presentation</button>
       </form>
     </>
+  );
+};
+
+const SuccessModal = ({ onClose }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <p>Time slot booked successfully!</p>
+        <button onClick={onClose} className="close-button">Close</button>
+      </div>
+    </div>
   );
 };
 
