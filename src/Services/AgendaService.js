@@ -10,6 +10,11 @@ const AgendaService = {
 
     getPastEvents: (duration) => axios.get(`${API_URL}/${afterSlash}/past`, {
         params: { duration }
+    }),
+    getUpcomingEventsByUser: (userId) => axios.get(`${API_URL}/${afterSlash}/upcoming/${userId}`, {
+    }),
+
+    getPastEventsByUser: (userId) => axios.get(`${API_URL}/${afterSlash}/past/${userId}`, {
     })
 };
 export default AgendaService;
