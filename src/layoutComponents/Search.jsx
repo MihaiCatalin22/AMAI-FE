@@ -7,19 +7,30 @@ import { useState, useEffect } from "react";
 function Search({onSearch}) {
 
   const [eventTopic, setEventTopic] = useState('');
+  const [speaker, setSpeaker] = useState('');
   const [semester, setSemester] = useState('current');
-
+  
   const handleSearch = () => {
-    EventService.searchEventsByTopic(eventTopic)
-        .then(response => {
-          const events = response.data;
-            console.log('Event found!', events);
-            onSearch(events);
-        })
-        .catch(error => {
-            console.log('Error found!', error);
-        });
-    };
+    const promises = [];
+
+    if (eventTopic) {
+      promises.push(EventService.searchEventsByTopic(eventTopic));
+    }
+
+    if (speaker) {
+      promises.push(EventService.searchEventsBySpeaker(speaker));
+    }
+
+    Promise.all(promises)
+      .then(responses => {
+        const events = responses.flatMap(response => response.data);
+        console.log('Events found!', events);
+        onSearch(events);
+      })
+      .catch(error => {
+        console.log('Error found!', error);
+      });
+  };
 
   return (
     <div className="search-container">
@@ -28,6 +39,12 @@ function Search({onSearch}) {
         value={eventTopic}
         placeholder="Search by topic" 
         onChange={(e) => setEventTopic(e.target.value)}/>
+      <input 
+        type="text"
+        className='text-black'
+        value={speaker}
+        placeholder="Search by speaker"
+        onChange={(e) => setSpeaker(e.target.value)}/>
       <select className='text-black'>
         <option value="current">Current Semester</option>
         <option value="latest">Latest Semester</option>
