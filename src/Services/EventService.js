@@ -19,13 +19,12 @@ const EventService = {
     }
     ),
 
-    updateEvent: (id, topic, description, date) => axios.put(`${API_URL}/${afterSlash}/${id}`,
-    {
-        "topic": topic,
-        "description": description,
-        "date": date
-    }
-    ),
+    updateEvent : (id, topic, description, date, speakers) => axios.put(`${API_URL}/${afterSlash}/${id}`, {
+        topic: topic,
+        description: description,
+        date: date,
+        speakers: speakers
+    }),
 
     deleteEvent: (id) => axios.delete(`${API_URL}/${afterSlash}/${id}`),
 

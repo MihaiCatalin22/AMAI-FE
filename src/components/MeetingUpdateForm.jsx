@@ -7,7 +7,6 @@ import '../Style/Pages.css';
 import FileUploadComponent from './FileUploadComponent';
 
 const MeetingUpdateForm = () => {
-
     const { id } = useParams();
     const meetingId = parseInt(id); // Convert id to integer
     const [meeting, setMeeting] = useState(null);
@@ -18,10 +17,13 @@ const MeetingUpdateForm = () => {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [fileName, setFileName] = useState('');
 
+    const [speakers, setSpeakers] = useState([]);
+
+
     useEffect(() => {
         EventService.getEvent(meetingId)
             .then(data => {
-                console.log(data.data); 
+                console.log(data.data);
                 setMeeting(data.data);
                 setTopic(data.data.topic);
                 setDescription(data.data.description);
@@ -31,14 +33,23 @@ const MeetingUpdateForm = () => {
                 if (!isNaN(isoDate.getTime())) {
                     setSelectedDate(isoDate);
                 }
-                })
+                setSpeakers(data.data.speakers || []);
+            })
             .catch(error => {
                 console.error("Error fetching event:", error);
             });
     }, [meetingId]);
 
-
     const handleDateChange = (date) => setSelectedDate(date);
+
+    const handleSpeakersChange = (e, index) => {
+        const newSpeakers = [...speakers];
+        newSpeakers[index] = e.target.value;
+        setSpeakers(newSpeakers);
+    };
+
+    const addSpeaker = () => setSpeakers([...speakers, '']);
+    // const removeSpeaker = (index) => setSpeakers(speakers.filter((_, i) => i !== index));
 
     const isTuesday = (date) => date.getDay() === 2;
     const adjustDateToValidTimeSlot = (date) => {
@@ -57,10 +68,11 @@ const MeetingUpdateForm = () => {
             return;
         }
 
-        EventService.updateEvent(meetingId, topic, description, adjustedDate.toISOString())
+        EventService.updateEvent(meetingId, topic, description, adjustedDate.toISOString(), speakers)
             .then(() => {
                 setTopic("");
                 setDescription("");
+                setSpeakers([]);
                 setShowSuccessModal(true);
             })
             .catch((error) => {
@@ -69,10 +81,16 @@ const MeetingUpdateForm = () => {
             });
     };
 
+<<<<<<< Updated upstream
 
     const handleFileUploaded = (uploadedFileName) => {
       setFileName(uploadedFileName);
   };
+=======
+    const handleFileUploaded = (uploadedFileName) => {
+        setFileName(uploadedFileName);
+    };
+>>>>>>> Stashed changes
 
     return (
         <>
@@ -88,9 +106,27 @@ const MeetingUpdateForm = () => {
                     <label htmlFor="description" style={labelStyle}>Description:</label>
                     <textarea id="description" value={description} onChange={e => setDescription(e.target.value)} style={{ ...inputStyle, height: '100px' }} required />
                 </div>
+<<<<<<< Updated upstream
+=======
+                <div style={inputGroupStyle}>
+                    <label style={labelStyle}>Speakers:</label>
+                    {speakers.map((speaker, index) => (
+                        <div key={index}>
+                            <input
+                                type="text"
+                                value={speaker}
+                                onChange={e => handleSpeakersChange(e, index)}
+                                style={inputStyle}
+                                required
+                            />
+                            {/*<button type="button" onClick={() => removeSpeaker(index)}>Remove</button>*/}
+                        </div>
+                    ))}
+                    <button type="button" onClick={addSpeaker}>Add Speaker</button>
+                </div>
+>>>>>>> Stashed changes
                 <div className='button-update'>
-                <button type="submit" className='submit-update-button'>Update meeting information</button>
-
+                    <button type="submit" className='submit-update-button'>Update meeting information</button>
                 </div>
             </form>
         </>
