@@ -1,17 +1,49 @@
 import React from 'react';
 import "../Style/Layout.css"
+import AgendaService from "../Services/AgendaService";
 import EventService from '../Services/EventService';
 import { useState, useEffect } from "react";
 
 
-function Search({onSearch}) {
+function Search({onSearch, searchType }) {
 
   const [eventTopic, setEventTopic] = useState('');
   const [speaker, setSpeaker] = useState('');
   const [semester, setSemester] = useState('current');
   
   const handleSearch = () => {
-    const promises = [];
+    if(!eventTopic && !speaker){
+      if (searchType === 'upcoming') {
+        AgendaService.getUpcomingEvents()
+          .then(response => {
+            console.log('All upcoming events found!', response.data);
+            onSearch(response.data);
+          })
+          .catch(error => {
+            console.log('Error found!', error);
+          });
+      } else if (searchType === 'past') {
+        AgendaService.getPastEvents()
+          .then(response => {
+            console.log('All past events found!', response.data);
+            onSearch(response.data);
+          })
+          .catch(error => {
+            console.log('Error found!', error);
+          });
+        }
+    }
+    else if (eventTopic && speaker) {
+      EventService.searchEventsByTopicAndSpeaker(eventTopic, speaker)
+        .then(response => {
+          console.log('Events found!', response.data);
+          onSearch(response.data);
+        })
+        .catch(error => {
+          console.log('Error found!', error);
+        });
+    } else {
+      const promises = [];
 
     if (eventTopic) {
       promises.push(EventService.searchEventsByTopic(eventTopic));
@@ -30,6 +62,8 @@ function Search({onSearch}) {
       .catch(error => {
         console.log('Error found!', error);
       });
+    }
+    
   };
 
   return (
@@ -45,10 +79,6 @@ function Search({onSearch}) {
         value={speaker}
         placeholder="Search by speaker"
         onChange={(e) => setSpeaker(e.target.value)}/>
-      <select className='text-black'>
-        <option value="current">Current Semester</option>
-        <option value="latest">Latest Semester</option>
-      </select>
       <button onClick={handleSearch}>Search</button> 
     </div>
   );

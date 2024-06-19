@@ -28,7 +28,7 @@ function PastTalks() {
 
     return (
         <>
-            <Search onSearch={handleSearch} />
+            <Search onSearch={handleSearch} searchType="past"/>
             <div className="home">
                 <div className="meetings-wrapper">
                     <div><label className="page-tittle">Past Meetings</label></div>

@@ -60,7 +60,7 @@ function Home() {
 
     return (
         <>
-            <Search onSearch={handleSearch} />
+            <Search onSearch={handleSearch} searchType="upcoming"/>
             <div className="home">
                 <div className="meetings-wrapper">
                     <label className="page-tittle">Upcoming Meetings</label>

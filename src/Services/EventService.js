@@ -32,6 +32,8 @@ const EventService = {
     
     searchEventsBySpeaker: (fullName) => axios.get(`${API_URL}/${afterSlash}/searchBySpeaker`, { params: { fullName } }),
 
+    searchEventsByTopicAndSpeaker: (topic, speakerName) => axios.get(`${API_URL}/${afterSlash}/searchByTopicAndSpeaker`, { params: { topic, speakerName } }),
+
     getAvailableSlots: (date, duration) => {
         return axios.get(`${API_URL}/${afterSlash}/availableSlots`, {
             params: { date, duration }

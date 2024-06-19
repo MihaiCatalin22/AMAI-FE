@@ -119,10 +119,7 @@ function MeetingInfo() {
 
 
                         <div className='buttons'>
-                                {isAuthenticated && (
-                                    hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)
-                                ) && (
-                            {isAuthenticated && (hasRole(['SPEAKER', 'ADMIN']) || isUserSpeaker) && (
+                        {isAuthenticated && (hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)) && (
                                     <>
                                         <button className='delete-button' onClick={handleDelete}>Delete Meeting</button>
                                         <button className='update-button' onClick={handleUpdate}>Update Meeting</button>
