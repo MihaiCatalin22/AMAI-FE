@@ -338,6 +338,7 @@ body {
 
 /* about */
 .about {
+    margin: auto;
     width: 300px;
     padding: 10px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Optional: adds a shadow for better visibility */
@@ -395,7 +396,7 @@ body {
 }
 
 
-.profile-page {
+.profile-page-info {
     max-width: 600px;
     margin: 30px auto;
     padding: 20px;
@@ -405,7 +406,7 @@ body {
     text-align: center;
 }
 
-.profile-page h2 {
+.profile-page-info h2 {
     color: #646cff;
     margin-bottom: 20px;
 }
@@ -421,6 +422,13 @@ body {
     font-weight: 600;
 }
 
+.profile-meeting-list{
+    padding: 50px;
+    padding-left: 200px;
+    padding-right: 200px;
+
+}
+
 /* Enhancements for profile page readability and appearance */
 .profile-page p {
     line-height: 1.6; /* Makes text more readable by increasing line spacing */
@@ -434,3 +442,38 @@ body {
     padding: 10px;
     margin-top: 10px;
 }
+
+.profile-meeting-list {
+    padding: 50px;
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.profile-meeting-list h2 {
+   color: white;
+}
+
+
+.meeting-buttons {
+    margin-bottom: 20px;
+}
+
+.meeting-buttons button {
+    background-color: #505;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 15px 25px;
+    margin-right: 10px;
+    font-size: medium;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.meeting-buttons button.active {
+    background-color: white;
+    color: #505;
+    font-weight: bolder;
+}
+
+

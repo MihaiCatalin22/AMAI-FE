@@ -11,7 +11,7 @@ const ProtectedRoute = ({ element: Component, requiredRoles, ...rest }) => {
   //    return <Navigate to="/login" />;
   // }
     if(!isAuthenticated && !hasRole(requiredRoles)){
-        return <Navigate to="/login" />;
+      return <Navigate to="/login" />;
     }
 
     return <Component/>;
