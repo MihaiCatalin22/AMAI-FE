@@ -4,6 +4,7 @@ import EventService from '../Services/EventService';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 import '../Style/Pages.css';
+import FileUploadComponent from './FileUploadComponent';
 
 const MeetingUpdateForm = () => {
 
@@ -15,6 +16,7 @@ const MeetingUpdateForm = () => {
     const [description, setDescription] = useState('');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [fileName, setFileName] = useState('');
 
     useEffect(() => {
         EventService.getEvent(meetingId)
@@ -67,6 +69,11 @@ const MeetingUpdateForm = () => {
             });
     };
 
+
+    const handleFileUploaded = (uploadedFileName) => {
+      setFileName(uploadedFileName);
+  };
+
     return (
         <>
             {showSuccessModal && (
@@ -80,20 +87,6 @@ const MeetingUpdateForm = () => {
                 <div style={inputGroupStyle}>
                     <label htmlFor="description" style={labelStyle}>Description:</label>
                     <textarea id="description" value={description} onChange={e => setDescription(e.target.value)} style={{ ...inputStyle, height: '100px' }} required />
-                </div>
-                <div style={inputGroupStyle}>
-                    <label htmlFor="presentationDate" style={labelStyle}>Presentation Date:</label>
-                    <DatePicker
-                        selected={selectedDate}
-                        onChange={handleDateChange}
-                        showTimeSelect
-                        filterDate={isTuesday}
-                        filterTime={(time) => time.getHours() === 16}
-                        minDate={new Date()}
-                        maxTime={new Date(new Date().setHours(17, 0, 0))}
-                        minTime={new Date(new Date().setHours(16, 0, 0))}
-                        dateFormat="MMMM d, yyyy h:mm aa"
-                    />
                 </div>
                 <div className='button-update'>
                 <button type="submit" className='submit-update-button'>Update meeting information</button>

@@ -12,17 +12,18 @@ const updateAxiosToken = (token) => {
     delete axios.defaults.headers.common['Authorization'];
   }
 };
+
 const TokenManager = {
   getAccessToken: () => sessionStorage.getItem("accessToken"),
   setAccessToken: (token) => {
-      sessionStorage.setItem("accessToken", token);
-      const claims = jwtDecode(token);
-      sessionStorage.setItem("claims", JSON.stringify(claims));
-      return claims;
+    sessionStorage.setItem("accessToken", token);
+    const claims = jwtDecode(token);
+    sessionStorage.setItem("claims", JSON.stringify(claims));
+    return claims;
   },
   clear: () => {
-      sessionStorage.removeItem("accessToken");
-      sessionStorage.removeItem("claims");
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("claims");
   }
 };
 
@@ -41,7 +42,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const loginUser = async (userData) => {
+  const loginUser = (userData) => {
     const claims = TokenManager.setAccessToken(userData.token);
     const updatedUserData = {
       ...userData,
@@ -79,8 +80,8 @@ export const AuthProvider = ({ children }) => {
     if (!Array.isArray(rolesRequired)) {
       rolesRequired = [rolesRequired];
     }
-    const userRoles = user?.roles || [];
-    return rolesRequired.some(role => userRoles.includes(role));
+    const userRole = user?.role || [];
+    return rolesRequired.some(role => userRole.includes(role));
   };
 
   return (
@@ -91,9 +92,9 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-const context = useContext(AuthContext);
-if (!context) {
-  throw new Error('useAuth must be used within an AuthProvider');
-}
-return context;
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

@@ -3,6 +3,7 @@ import AgendaService from "../Services/AgendaService";
 import Meeting from "../components/Meeting";
 import Search from "../layoutComponents/Search";
 import About from "./About";
+import { useAuth } from '../contexts/authContext';
 
 import "../Style/Pages.css"
 
@@ -10,6 +11,8 @@ import "../Style/Pages.css"
 function Home() {
   const [upMeetings,setUpMeetings] = useState([]);
 
+  const { hasRole, isAuthenticated, user } = useAuth();
+console.log(user);
   const handleSearch = (searchResults) => {
     setUpMeetings(searchResults);
   };
@@ -32,6 +35,7 @@ function Home() {
           formattedDate: formatDate(meeting.date)
         }));
         setUpMeetings(formattedMeetings);
+        console.log(formattedMeetings);
       }).catch(error => console.error("Error fetching upcoming meetings:", error));
     }, []);
 

@@ -84,7 +84,7 @@ function Login() {
   const LoginSuccessModal = () => {
     return (
         <div className="modalOverlayStyle">
-            <div className="modalContentStyle">
+            <div className="modalContentStyle messages">
                 <p>Logged in successfully!</p>
             </div>
         </div>
