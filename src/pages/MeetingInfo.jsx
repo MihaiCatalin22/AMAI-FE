@@ -25,7 +25,7 @@ function MeetingInfo() {
                 console.error("Error fetching event:", error);
             });
     }, [meetingId]);
-
+    const isUserSpeaker = meeting && meeting.speakers && meeting.speakers.includes(user.fullName);
     const handleDownload = (filename) => {
         if (filename) {
             FileService.downloadFile(filename);
@@ -119,9 +119,7 @@ function MeetingInfo() {
 
 
                         <div className='buttons'>
-                                {isAuthenticated && (
-                                    hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)
-                                ) && (
+                        {isAuthenticated && (hasRole(['SPEAKER', 'ADMIN']) && (meeting.speaker && user.id === meeting.speaker.id)) && (
                                     <>
                                         <button className='delete-button' onClick={handleDelete}>Delete Meeting</button>
                                         <button className='update-button' onClick={handleUpdate}>Update Meeting</button>

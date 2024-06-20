@@ -194,36 +194,47 @@ const PresentationForm = () => {
             <label className="medium-text">Select Duration:</label>
             <div className="small-text">
               <input
-                type="radio"
-                id="duration10"
-                name="duration"
-                value="10"
-                checked={selectedDuration === 10}
-                onChange={handleDurationChange}
+                  type="radio"
+                  id="duration10"
+                  name="duration"
+                  value="10"
+                  checked={selectedDuration === 10}
+                  onChange={handleDurationChange}
               />
               <label htmlFor="duration10"> 10 minutes</label>
             </div>
             <div className="small-text">
               <input
-                type="radio"
-                id="duration20"
-                name="duration"
-                value="20"
-                checked={selectedDuration === 20}
-                onChange={handleDurationChange}
+                  type="radio"
+                  id="duration20"
+                  name="duration"
+                  value="20"
+                  checked={selectedDuration === 20}
+                  onChange={handleDurationChange}
               />
               <label htmlFor="duration20"> 20 minutes</label>
             </div>
             <div className="small-text">
               <input
-                type="radio"
-                id="duration30"
-                name="duration"
-                value="30"
-                checked={selectedDuration === 30}
-                onChange={handleDurationChange}
+                  type="radio"
+                  id="duration30"
+                  name="duration"
+                  value="30"
+                  checked={selectedDuration === 30}
+                  onChange={handleDurationChange}
               />
               <label htmlFor="duration30"> 30 minutes</label>
+            </div>
+            <div className="small-text">
+              <input
+                  type="radio"
+                  id="duration60"
+                  name="duration"
+                  value="60"
+                  checked={selectedDuration === 60}
+                  onChange={handleDurationChange}
+              />
+              <label htmlFor="duration60"> 60 minutes</label>
             </div>
           </div>
           <br/>
