@@ -10,7 +10,6 @@ function PastTalks() {
   useEffect(() => {
     AgendaService.getPastEvents().then(result => {
       setPastMeetings(result.data);
-      console.log(pastMeetings);
     }).catch(error => console.error("Error fetching past meetings:", error));
   }, []);
 

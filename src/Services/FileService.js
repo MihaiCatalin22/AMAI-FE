@@ -10,26 +10,7 @@ const FileService = {
         return axios.post(`${API_URL}/upload/${presentationId}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            },
-            timeout: 60000 // 60 seconds timeout
-        }).then(response => {
-            console.log('File uploaded successfully:', response.data);
-            return response;
-        }).catch(error => {
-            console.error('Upload error:', error);
-            if (error.response) {
-                // Server responded with a status other than 2xx
-                console.error('Error response data:', error.response.data);
-                console.error('Error response status:', error.response.status);
-                console.error('Error response headers:', error.response.headers);
-            } else if (error.request) {
-                // No response received from server
-                console.error('Error request:', error.request);
-            } else {
-                // Error setting up the request
-                console.error('Error message:', error.message);
             }
-            throw error;
         });
     },
 
