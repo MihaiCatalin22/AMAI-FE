@@ -14,10 +14,10 @@ const PresentationForm = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedFileName, setSelectedFileName] = useState(null);
-
   const [isUserSpeaker, setIsUserSpeaker] = useState(true);
-
-  const [selectedDuration, setSelectedDuration] = useState(10); // Default to 10 minutes
+  const [selectedDuration, setSelectedDuration] = useState(10);
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -81,7 +81,13 @@ const PresentationForm = () => {
         console.error("Failed to create event:", error);
         if (error.response) {
           console.log("Server response:", error.response.data);
-          alert(`Failed to create event: ${error.response.data.error || 'Unknown error'}`);
+          if (error.response.status === 403) {
+            setErrorMessage("The time slot is taken for the selected time period.");
+          } else {
+            const message = error.response.data.error || 'Unknown error';
+            setErrorMessage(`Failed to create event: ${message}`);
+          }
+          setShowErrorModal(true);
         }
       });
   };
@@ -136,6 +142,9 @@ const PresentationForm = () => {
     <>
       {showSuccessModal && (
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
+      )}
+      {showErrorModal && (
+        <ErrorModal message={errorMessage} onClose={() => setShowErrorModal(false)} />
       )}
       <form onSubmit={handleSubmit} id="presentation-form" autoComplete='off'>
         <div className="input-group">
@@ -243,6 +252,17 @@ const SuccessModal = ({ onClose }) => {
     <div className="modal-overlay">
       <div className="modal">
         <p>Time slot booked successfully!</p>
+        <button onClick={onClose} className="close-button">Close</button>
+      </div>
+    </div>
+  );
+};
+
+const ErrorModal = ({ message, onClose }) => {
+  return (
+    <div className="modal-overlay">
+      <div className="modal">
+        <p>{message}</p>
         <button onClick={onClose} className="close-button">Close</button>
       </div>
     </div>
