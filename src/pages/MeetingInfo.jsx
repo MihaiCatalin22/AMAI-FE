@@ -25,7 +25,7 @@ function MeetingInfo() {
                 console.error("Error fetching event:", error);
             });
     }, [meetingId]);
-    const isUserSpeaker = meeting && meeting.speakers && meeting.speakers.includes(user.fullName);
+    const isUserSpeaker = meeting && meeting.speakers && user && meeting.speakers.includes(user.fullName);
     const handleDownload = (filename) => {
         if (filename) {
             FileService.downloadFile(filename);

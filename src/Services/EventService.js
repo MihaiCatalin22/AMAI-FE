@@ -17,10 +17,11 @@ const EventService = {
         duration
     }),
 
-    updateEvent: (id, topic, description, date) => axios.put(`${API_URL}/${afterSlash}/${id}`, {
+    updateEvent: (id, topic, description, date, speakers) => axios.put(`${API_URL}/${afterSlash}/${id}`, {
         topic,
         description,
-        date
+        date,
+        speakers
     }),
 
     deleteEvent: (id) => axios.delete(`${API_URL}/${afterSlash}/${id}`),
