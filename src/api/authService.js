@@ -5,15 +5,19 @@ const API_URL = 'http://localhost:8080/users';
 
 const TokenManager = {
     getAccessToken: () => sessionStorage.getItem("accessToken"),
+    getClaims: () => {
+        const claims = sessionStorage.getItem("claims");
+        return claims ? JSON.parse(claims) : undefined;
+    },
     setAccessToken: (token) => {
-      sessionStorage.setItem("accessToken", token);
-      const claims = jwtDecode(token);
-      sessionStorage.setItem("claims", JSON.stringify(claims));
-      return claims;
+        sessionStorage.setItem("accessToken", token);
+        const claims = jwtDecode(token);
+        sessionStorage.setItem("claims", JSON.stringify(claims));
+        return claims;
     },
     clear: () => {
-      sessionStorage.removeItem("accessToken");
-      sessionStorage.removeItem("claims");
+        sessionStorage.removeItem("accessToken");
+        sessionStorage.removeItem("claims");
     }
 };
 

@@ -4,7 +4,7 @@ import UserService from '../../Services/UserService';
 import "../../Style/Pages.css";
 
 function RegisterForm() {
-  const siteURL = window.location.origin;
+  const queryString = window.location.href;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
@@ -24,19 +24,15 @@ function RegisterForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    UserService.register(formData, siteURL)
-      .then(result => {
-        if (result.data === "register_success") {
-          setShowSuccessModal(true);
-          setTimeout(() => {
+    UserService.register(formData, queryString).then(result => {
+        if(result.data === "register_success"){
+            setShowSuccessModal(true);
             navigate('/registerSuccess');
-          }, 2000);
         }
-      })
-      .catch(error => {
+    }).catch(error => {
         console.error('Registration failed:', error);
-        alert('Registration failed. Please try again.');
-      });
+        // Optionally handle errors, e.g., display an error message to the user
+    });
     console.log(formData);
   };
 

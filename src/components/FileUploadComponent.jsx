@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import FileService from "../Services/FileService";
 
-function FileUploadComponent({ presentationId, onFileUploaded, isUpdate }) {
+function FileUploadComponent({ presentationId, onFileUploaded }) {
     const [file, setFile] = useState(null);
 
     const handleFileUpload = () => {
@@ -15,18 +15,12 @@ function FileUploadComponent({ presentationId, onFileUploaded, isUpdate }) {
                 alert('File uploaded successfully');
                 onFileUploaded(response.data.fileName);
             })
-            .catch(error => {
-                alert('File upload failed');
-                console.error('Upload error:', error);
-            });
     };
 
     return (
         <div>
             <input type="file" onChange={e => setFile(e.target.files[0])} />
-            <button onClick={handleFileUpload}>
-                {isUpdate ? 'Update Presentation' : 'Upload File'}
-            </button>
+            <button onClick={handleFileUpload}>Upload File</button>
         </div>
     );
 }

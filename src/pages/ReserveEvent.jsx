@@ -1,30 +1,18 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import PresentationForm from "../components/PresentationForm";
-import { useAuth } from '../contexts/authContext';
-import "../Style/Pages.css";
+import React from "react"
 
-function ReserveEvent() {
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+import PresentationForm from "../components/PresentationForm"
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/login");
-    }
-  }, [isAuthenticated, navigate]);
+import "../Style/Pages.css"
+function ReserveEvent(){
 
-  if (!isAuthenticated) {
-    return null;
-  }
 
-  return (
-    <>
-      <br></br>
-      <label className="page-tittle">Reserve</label>
-      <PresentationForm />
-    </>
-  );
+    return(
+        <>
+        <br></br>
+        <label className="page-tittle">Reserve</label>
+        <PresentationForm></PresentationForm>
+        </>
+        
+    )
 }
-
-export default ReserveEvent;
+export default ReserveEvent
